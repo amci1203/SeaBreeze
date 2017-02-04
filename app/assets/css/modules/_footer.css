@@ -1,0 +1,47 @@
+.footer {
+    background-color : $navs-color;
+    color            : $navs-text;
+    font-size        : 1rem;
+    text-align       : center;
+    padding          : 2.15rem 0;
+    
+    &__text {
+        font-weight: 200;
+        display: block;
+        margin-bottom: 1rem;
+    }
+    
+    ul {
+        @mixin clearfix;
+        margin     : 0;
+        padding    : 0;
+        text-align : center;
+        
+        margin-bottom: 1.15rem;
+    }
+    li {
+        display      : inline-block;
+        margin       : 0;
+        list-style   : none;
+        border-right : 1px solid $navs-text;
+        &:last-child { border-right: none }
+        
+        &:nth-child(even) { a:hover  { border-bottom: 3px solid $mainBlue } }
+        &:nth-child(odd)  { a:hover  { border-bottom: 3px solid $mainYellow } }
+    }
+    a {
+        @mixin noTextDecoration;
+        transition       : background-color 0.2s ease-in; 
+        display          : block;
+        margin           : 0 0.8rem;
+        font-weight      : 100;
+        font-size        : 0.8rem;
+        height           : $footer-navH;
+        padding          : calc($footer-navH / 5) 5px;
+        @mixin atMedium{
+            font-size : 1.25rem;
+            padding   : calc($footer-navH / 5) 5px;
+        }
+        
+    }
+}

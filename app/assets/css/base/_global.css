@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family : 'Roboto', 'Arial', sans-serif;
+    overflow-x  : hidden;
+    width       : 100%;
+    color       : #333;
+}
+
+img {
+    max-width : 100%;
+    height    : auto;
+}
+
+.pull-left  { float: left }
+.pull-right { float: right }

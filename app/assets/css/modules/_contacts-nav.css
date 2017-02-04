@@ -1,0 +1,36 @@
+.contacts-nav {
+    position         : fixed;
+    padding          : 3px 15px;
+    background-color : $navs-color;
+    color            : $navs-text;
+    
+    top    : 0;
+    width  : 100%;
+    height : $contacts-navH;
+    ul {
+        @mixin clearfix;
+        margin     : 0;
+        padding    : 0;
+    }
+    li {
+        float      : left;
+        display    : inline-block;
+        margin     : 0;
+        list-style : none;
+        
+        img {
+            display: inline-block;
+        }
+    }
+    a {
+        @mixin noTextDecoration;
+        transition       : all 0.2s ease-in; 
+        display          : inline-block;
+        margin           : 0;
+        font-weight      : 300;
+        font-size        : 0.8rem;
+        height           : $contacts-navH;
+        padding          : 0 15px 0 5px;
+        @mixin atMedium { font-size: 1rem }
+    }
+}

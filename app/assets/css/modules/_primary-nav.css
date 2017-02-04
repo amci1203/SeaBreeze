@@ -1,0 +1,44 @@
+.primary-nav {
+    position         : relative;
+    padding-top      : 20px;
+    height           : $primary-navH;
+    background-color : $navs-color;
+    color            : $navs-text;
+    @mixin atMedium { padding-top: 0 }
+    &--right {
+        @mixin atMedium {
+            float : right;
+        }
+    }
+    ul {
+        @mixin clearfix;
+        margin     : 0;
+        padding    : 0;
+        text-align : center;
+    }
+    li {
+        display    : inline-block;
+        margin     : 0;
+        list-style : none;
+    }
+    a {
+        @mixin noTextDecoration;
+        transition       : all 0.2s ease-in; 
+        display          : block;
+        margin           : 0;
+        font-weight      : 300;
+        font-size        : 1rem;
+        height           : $primary-navH;
+        padding          : calc($primary-navH / 2) 15px;
+        @mixin atMedium{
+            font-size: 1.25rem;
+            padding: calc($primary-navH / 2) 25px;
+        }
+        &:hover  { background-color: $mainBlue }
+        &.active {
+            background-color : $mainYellow;
+            color            : #111;
+            font-weight      : 800;
+        }
+    }
+}
