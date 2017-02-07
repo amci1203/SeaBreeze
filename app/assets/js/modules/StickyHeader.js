@@ -1,10 +1,14 @@
 import $         from 'jquery';
-import waypoints from '../../../../node_modules/waypoints/lib/noframework.waypoints';
 
-const header  = $('.primary-nav'),
-      trigger = $('#home');
-
-new Waypoint({
-    element : trigger,
-    handler : () => header.toggleClass('primary-nav--fixed')
-})
+export default function StickyHeader () {
+    const trigger = document.getElementById('primary-nav');
+    return (() => {
+        new Waypoint({
+            element : trigger,
+            handler : () => {
+                document.body.classList.toggle('sticky-top');
+                trigger.classList.toggle('primary-nav--fixed');
+            }
+        })
+    })()
+}

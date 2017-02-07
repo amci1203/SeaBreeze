@@ -10,8 +10,9 @@
     @mixin atMedium { padding-top: 0 }
     &--fixed {
         position      : fixed;
+        top           : 0;
+        width         : 100%;
         padding       : 0;
-        margin-bottom : $primary-navH;
     }
     ul {
         @mixin clearfix;
@@ -22,12 +23,17 @@
     li {
         position    : relative;
         top         : -6px;
-        transition  : all 0.2s ease-in;
         display     : inline-block;
         margin      : 0;
         list-style  : none;
         font-weight : 300;
         font-size   : 1rem;
+    }
+    a {
+        @mixin noTextDecoration;
+        transition  : all 0.2s ease-in;
+        display     : block;
+        width       : 100%;
         height      : $primary-navH;
         padding     : calc($primary-navH / 2) 15px;
         @mixin atMedium{
@@ -35,17 +41,11 @@
             padding   : calc($primary-navH / 2) 25px;
         }
         &:hover  { background-color: $mainBlue }
+        &.current-link { color : $mainYellow }
         &.active {
             background-color : $mainYellow;
             color            : #111;
             font-weight      : 800;
         }
-    }
-    a {
-        @mixin noTextDecoration;
-        display : block;
-        width   : 100%;
-        height  : 100%;
-        &.current-link { color : $mainYellow }
     }
 }

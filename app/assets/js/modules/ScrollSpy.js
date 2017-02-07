@@ -1,35 +1,36 @@
 import $      from 'jquery';
 import smooth from 'jquery-smooth-scroll';
 
-const pageSections = $('.page-section'),
-      lazyImages   = $('.lazyload'),
-      links        = $('.primary-nav a');
+export default function ScrollSpy () {
+    const pageSections = $('.page-section'),
+          lazyImages   = $('.lazyload'),
+          links        = $('.primary-nav a');
 
-links.smooth();
 
-function sectionChange (direction, targetDirection) {
-    if (direction == targetDirction) {
-        const targetLink = `_${this.element.id}`;
-        console.log(targetLink);
-        links.removeClass('current-link');
-        document.getElementById(targetLink).classList.add('current-link');
+    function sectionChange (section, direction, targetDirection) {
+        if (direction == targetDirection) {
+            const targetLink = `_${section.id}`;
+            links.removeClass('current-link');
+            document.getElementById(targetLink).classList.add('current-link');
+        }
     }
+    
+    return (() => {
+        pageSections.each(function () {
+            let cs = this;
+            new Waypoint({
+                element : cs,
+                offset  : '18%',
+                handler : direction => sectionChange(cs, direction, 'down')
+            })
+            new Waypoint({
+                element : cs,
+                offset  : '-40%',
+                handler : direction => sectionChange(cs, direction, 'up')
+            })
+        })
+
+        lazyImages.load(() => Waypoint.refreshAll());
+        links.smoothScroll();
+    })()
 }
-
-pageSections.each(function () {
-    let currentSection = this;
-    new Waypoint({
-        element : currentSection,
-        offset  : '18%',
-        handler : sectionChange(direction, 'down')
-    })
-    new Waypoint({
-        element : currentSection,
-        offset  : '-40%',
-        handler : sectionChange(direction, 'up')
-    })
-})
-
-lazyImages.load(() => Waypoint.refreshAll());
-
-console.log('DONE');

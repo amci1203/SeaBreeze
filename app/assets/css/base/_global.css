@@ -8,6 +8,9 @@ body {
     overflow-x  : hidden;
     width       : 100%;
     color       : #333;
+    &.sticky-top {
+        padding-top: $primary-navH;
+    }
 }
 
 img {
