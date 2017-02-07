@@ -1,49 +1,35 @@
-import $ from 'jquery';
-import smoothScroll from 'jquery-smooth-scroll';
+import $      from 'jquery';
+import smooth from 'jquery-smooth-scroll';
 
-class ScrollSpy {
-    constructor () {
-        this.pageSections = $('.page-section');
-        this.links = $('.primary-nav a');
-        this.createSectionWaypoints();
-        this.addSmoothScrolling();
-        this.lazyImages = $('.lazyload');
-        this.refreshWaypoints();
-    }
-    addSmoothScrolling () {
-        this.links.smoothScroll();
-    }
-    refreshWaypoints () {
-        this.lazyImages.load(function () {
-            Waypoint.refreshAll();
-        });
-    }
-    createSectionWaypoints () {
-        let instance = this;
-        this.pageSections.each(function () {
-            let currentPageSection = this;
-            new Waypoint({
-                element: currentPageSection,
-                offset: '18%',
-                handler: function (direction) {
-                    if (direction === 'down') {
-                        if (instance.links.hasClass('current-link')) $('.primary-nav a').removeClass('current-link');
-                        $(currentPageSection.getAttribute('data-link')).addClass('current-link');
-                    }
-                }
-            })
-            new Waypoint({
-                element: currentPageSection,
-                offset: '-40%',
-                handler: function (direction) {
-                    if (direction === 'up') {
-                        if (instance.links.hasClass('current-link')) $('.primary-nav a').removeClass('current-link');
-                        $(currentPageSection.getAttribute('data-link')).addClass('current-link');
-                    }
-                }
-            })
-        })
+const pageSections = $('.page-section'),
+      lazyImages   = $('.lazyload'),
+      links        = $('.primary-nav a');
+
+links.smooth();
+
+function sectionChange (direction, targetDirection) {
+    if (direction == targetDirction) {
+        const targetLink = `_${this.element.id}`;
+        console.log(targetLink);
+        links.removeClass('current-link');
+        document.getElementById(targetLink).classList.add('current-link');
     }
 }
 
-export default ScrollSpy;
+pageSections.each(function () {
+    let currentSection = this;
+    new Waypoint({
+        element : currentSection,
+        offset  : '18%',
+        handler : sectionChange(direction, 'down')
+    })
+    new Waypoint({
+        element : currentSection,
+        offset  : '-40%',
+        handler : sectionChange(direction, 'up')
+    })
+})
+
+lazyImages.load(() => Waypoint.refreshAll());
+
+console.log('DONE');

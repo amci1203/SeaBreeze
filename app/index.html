@@ -8,26 +8,26 @@
     <!--  build:css assets/css/styles.css  -->
     <link rel='stylesheet' href='styles.css' type='text/css' />
     <!--  endbuild  -->
-    <meta name='theme-color' content='#234780' />
+    <meta name='theme-color' content='#28ABC5' />
 </head>
 <body>
     <!--  build:js assets/js/vendor.js -->
     <script src='temp/js/vendor.js'></script>
     <!--  endbuild -->
 
+    <nav class='contacts-nav'>
+        <ul class='pull-right'>
+            <li>
+                <img src="assets/images/icons/mail.svg" alt="email" />
+                <a href="">emailus@seabreezevacationvillas.com</a>
+            </li>
+            <li>
+                <img src="assets/images/icons/phone.svg" alt="phone" />
+                <a href="">242-351-1186/87/88</a>
+            </li>
+        </ul>
+    </nav>
     <header class='large-hero'>
-        <nav class='contacts-nav'>
-            <ul class='pull-right'>
-                <li>
-                    <img src="assets/images/icons/message.png" alt="email" />
-                    <a href="">emailus@seabreezevacationvillas.com</a>
-                </li>
-                <li>
-                    <img src="assets/images/icons/phone.png" alt="phone" />
-                    <a href="">242-351-1186/87/88</a>
-                </li>
-            </ul>
-        </nav>
         <img src="assets/images/sea-breeze.jpg" alt="Sea Breeze Vacation Villas" class="large-hero__background-image push-up">
         <img src="assets/images/logo.png" alt="SeaBreeze Vacation Villas Logo" class="large-hero__splash-image" />
 <!--
@@ -38,13 +38,13 @@
     </header>
     <nav class='primary-nav'>
         <ul>
-            <li><a class='active' href="#home">Home</a></li>
-            <li><a href="#villas">Villas</a></li>
-            <li><a href="#rates">Rates</a></li>
-            <li><a href="#marina">Marina</a></li>
-            <li><a href="#activities">Activities</a></li>
-            <li><a href="#testimonials">Testimonials</a></li>
-            <li><a href="#amenities">Amenities</a></li>
+            <li class='active'><a id='_home' href="#home">Home</a></li>
+            <li><a id='_villas' href="#villas">Villas</a></li>
+            <li><a id='_rates' href="#rates">Rates</a></li>
+            <li><a id='_marina' href="#marina">Marina</a></li>
+            <li><a id='_activities' href="#activities">Activities</a></li>
+            <li><a id='_testimonials' href="#testimonials">Testimonials</a></li>
+            <li><a id='_amenities' href="#amenities">Amenities</a></li>
         </ul>
     </nav>
     <section id='home' class="page-section page-section--yellow">
@@ -77,7 +77,7 @@
         </div>
     </section>
     
-    <section class="page-section page-section--yellow">
+    <section id='amenities' class="page-section page-section--yellow">
         <h1 class="section-title">Amenities</h1>
         <div class="wrapper wrapper--medium">
             <div class="row row--gutters--large">
@@ -126,7 +126,7 @@
         </div>
     </section>
     
-    <section class="page-section page-section--yellow">
+    <section id='activities' class="page-section page-section--yellow">
         <h1 class="section-title">Our <strong>Activities</strong></h1>
         <div class="wrapper generic-content">
             <div class="col-md-6">

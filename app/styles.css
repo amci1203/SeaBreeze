@@ -1393,20 +1393,23 @@ img {
 }
 .primary-nav {
     position         : relative;
+    z-index          : 500;
     padding-top      : 20px;
     height           : 80px;
     background-color : #1e2329;
     color            : #FFF;
+    border-top       : 3px solid #28ABC5;
+    border-bottom    : 3px solid #FFD700;
 }
 @media (min-width: 768px) {
   .primary-nav {
     padding-top: 0;
   }
 }
-@media (min-width: 768px) {
-  .primary-nav--right {
-    float: right;
-  }
+.primary-nav--fixed {
+  position      : fixed;
+  padding       : 0;
+  margin-bottom : 80px;
 }
 .primary-nav ul {
   margin     : 0;
@@ -1419,21 +1422,38 @@ img {
   display: table;
 }
 .primary-nav li {
-  display    : inline-block;
-  margin     : 0;
-  list-style : none;
+  position    : relative;
+  top         : -6px;
+  -webkit-transition: all 0.2s ease-in;
+  transition  : all 0.2s ease-in;
+  display     : inline-block;
+  margin      : 0;
+  list-style  : none;
+  font-weight : 300;
+  font-size   : 1rem;
+  height      : 80px;
+  padding     : 40px 15px;
+}
+@media (min-width: 768px) {
+  .primary-nav li {
+    font-size: 1.25rem;
+    padding: 40px 25px;
+  }
+}
+.primary-nav li:hover  {
+  background-color: #28ABC5
+}
+.primary-nav li.active {
+  background-color : #FFD700;
+  color            : #111;
+  font-weight      : 800;
 }
 .primary-nav a {
   text-decoration: none;
   color: inherit;
-  -webkit-transition: all 0.2s ease-in;
-  transition       : all 0.2s ease-in;
-  display          : block;
-  margin           : 0;
-  font-weight      : 300;
-  font-size        : 1rem;
-  height           : 80px;
-  padding          : 40px 15px;
+  display : block;
+  width   : 100%;
+  height  : 100%;
 }
 .primary-nav a:hover {
   color: inherit;
@@ -1447,22 +1467,12 @@ img {
   color: inherit;
   text-decoration: none;
 }
-@media (min-width: 768px) {
-  .primary-nav a {
-    font-size: 1.25rem;
-    padding: 40px 25px;
-  }
-}
-.primary-nav a:hover  {
-  background-color: #28ABC5
-}
-.primary-nav a.active {
-  background-color : #FFD700;
-  color            : #111;
-  font-weight      : 800;
+.primary-nav a.current-link {
+  color : #FFD700
 }
 .contacts-nav {
     position         : fixed;
+    z-index          : 100;
     padding          : 3px 15px;
     background-color : #1e2329;
     color            : #FFF;
@@ -1487,7 +1497,9 @@ img {
   list-style : none;
 }
 .contacts-nav li img {
-  display: inline-block;
+  margin-top : 5px;
+  display    : inline-block;
+  height     : 25px;
 }
 .contacts-nav a {
   text-decoration: none;

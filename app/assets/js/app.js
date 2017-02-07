@@ -1,6 +1,9 @@
-import MobileMenu from './modules/MobileMenu';
+import $ from 'jquery';
+
+import Modal        from './modules/Modal';
 import ScrollReveal from './modules/RevealOnScroll';
-import StickyHeader from './modules/StickyHeader';
-import Modal from './modules/Modal';
-import ScrollSpy from './modules/ScrollSpy';
-///////////////////////////////////////////////////////////////////////////////
+
+$(document).ready(() => {
+//    import './modules/StickyHeader';
+//    import './modules/ScrollSpy';
+})

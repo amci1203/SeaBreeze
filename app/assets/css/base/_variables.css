@@ -11,3 +11,6 @@ $navs-text       : #FFF;
 $primary-navH    : 80px;
 $contacts-navH   : 40px;
 $footer-navH     : 40px;
+
+$primary-navZ    : 500;
+$contacts-navZ   : 100;

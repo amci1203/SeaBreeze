@@ -1,14 +1,17 @@
 .primary-nav {
     position         : relative;
+    z-index          : $primary-navZ;
     padding-top      : 20px;
     height           : $primary-navH;
     background-color : $navs-color;
     color            : $navs-text;
+    border-top       : 3px solid $mainBlue;
+    border-bottom    : 3px solid $mainYellow;
     @mixin atMedium { padding-top: 0 }
-    &--right {
-        @mixin atMedium {
-            float : right;
-        }
+    &--fixed {
+        position      : fixed;
+        padding       : 0;
+        margin-bottom : $primary-navH;
     }
     ul {
         @mixin clearfix;
@@ -17,22 +20,19 @@
         text-align : center;
     }
     li {
-        display    : inline-block;
-        margin     : 0;
-        list-style : none;
-    }
-    a {
-        @mixin noTextDecoration;
-        transition       : all 0.2s ease-in; 
-        display          : block;
-        margin           : 0;
-        font-weight      : 300;
-        font-size        : 1rem;
-        height           : $primary-navH;
-        padding          : calc($primary-navH / 2) 15px;
+        position    : relative;
+        top         : -6px;
+        transition  : all 0.2s ease-in;
+        display     : inline-block;
+        margin      : 0;
+        list-style  : none;
+        font-weight : 300;
+        font-size   : 1rem;
+        height      : $primary-navH;
+        padding     : calc($primary-navH / 2) 15px;
         @mixin atMedium{
-            font-size: 1.25rem;
-            padding: calc($primary-navH / 2) 25px;
+            font-size : 1.25rem;
+            padding   : calc($primary-navH / 2) 25px;
         }
         &:hover  { background-color: $mainBlue }
         &.active {
@@ -40,5 +40,12 @@
             color            : #111;
             font-weight      : 800;
         }
+    }
+    a {
+        @mixin noTextDecoration;
+        display : block;
+        width   : 100%;
+        height  : 100%;
+        &.current-link { color : $mainYellow }
     }
 }

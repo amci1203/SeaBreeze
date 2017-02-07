@@ -1,5 +1,6 @@
 .contacts-nav {
     position         : fixed;
+    z-index          : $contacts-navZ;
     padding          : 3px 15px;
     background-color : $navs-color;
     color            : $navs-text;
@@ -19,7 +20,9 @@
         list-style : none;
         
         img {
-            display: inline-block;
+            margin-top : 5px;
+            display    : inline-block;
+            height     : calc($contacts-navH - 15px);
         }
     }
     a {

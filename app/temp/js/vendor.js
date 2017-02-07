@@ -46,22 +46,18 @@
 
 	'use strict';
 
-	__webpack_require__(9);
+	__webpack_require__(5);
 
-	__webpack_require__(10);
+	__webpack_require__(6);
 
-	__webpack_require__(11);
+	__webpack_require__(7);
 
 /***/ },
 /* 1 */,
 /* 2 */,
 /* 3 */,
 /* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */
+/* 5 */
 /***/ function(module, exports) {
 
 	(function(window, factory) {
@@ -181,7 +177,7 @@
 				running = false;
 			};
 
-			var rafBatch = function(fn){
+			return function(fn){
 				if(running){
 					fn.apply(this, arguments);
 				} else {
@@ -193,10 +189,6 @@
 					}
 				}
 			};
-
-			rafBatch._lsFlush = run;
-
-			return rafBatch;
 		})();
 
 		var rAFIt = function(fn, simple){
@@ -750,7 +742,7 @@
 
 
 /***/ },
-/* 10 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*! picturefill - v3.0.2 - 2016-02-12
@@ -2300,7 +2292,7 @@
 
 
 /***/ },
-/* 11 */
+/* 7 */
 /***/ function(module, exports) {
 
 	'use strict';

@@ -46,83 +46,31 @@
 
 	'use strict';
 
-	var _MobileMenu = __webpack_require__(1);
+	var _jquery = __webpack_require__(1);
 
-	var _MobileMenu2 = _interopRequireDefault(_MobileMenu);
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _Modal = __webpack_require__(2);
+
+	var _Modal2 = _interopRequireDefault(_Modal);
 
 	var _RevealOnScroll = __webpack_require__(3);
 
 	var _RevealOnScroll2 = _interopRequireDefault(_RevealOnScroll);
 
-	var _StickyHeader = __webpack_require__(5);
-
-	var _StickyHeader2 = _interopRequireDefault(_StickyHeader);
-
-	var _Modal = __webpack_require__(6);
-
-	var _Modal2 = _interopRequireDefault(_Modal);
-
-	var _ScrollSpy = __webpack_require__(7);
-
-	var _ScrollSpy2 = _interopRequireDefault(_ScrollSpy);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	(0, _jquery2.default)(document).ready(function () {
+	  //    import './modules/StickyHeader';
+	  //    import './modules/ScrollSpy';
+	});
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _jquery = __webpack_require__(2);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var MobileMenu = function () {
-	    function MobileMenu() {
-	        _classCallCheck(this, MobileMenu);
-
-	        this.icon = (0, _jquery2.default)('.header__menu-icon');
-	        this.content = (0, _jquery2.default)('.header__menu-content');
-	        this.background = (0, _jquery2.default)('.header');
-	        this.events();
-	    }
-
-	    _createClass(MobileMenu, [{
-	        key: 'events',
-	        value: function events() {
-	            this.icon.click(this.toggleMenu.bind(this));
-	        }
-	    }, {
-	        key: 'toggleMenu',
-	        value: function toggleMenu() {
-	            this.icon.toggleClass('header__menu-icon--close-x');
-	            this.content.toggleClass('header__menu-content--open');
-	            this.background.toggleClass('header--menu-open');
-	        }
-	    }]);
-
-	    return MobileMenu;
-	}();
-
-	exports.default = MobileMenu;
-
-/***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	 * jQuery JavaScript Library v2.2.4
+	 * jQuery JavaScript Library v2.2.3
 	 * http://jquery.com/
 	 *
 	 * Includes Sizzle.js
@@ -132,7 +80,7 @@
 	 * Released under the MIT license
 	 * http://jquery.org/license
 	 *
-	 * Date: 2016-05-20T17:23Z
+	 * Date: 2016-04-05T19:26Z
 	 */
 
 	(function( global, factory ) {
@@ -188,7 +136,7 @@
 
 
 	var
-		version = "2.2.4",
+		version = "2.2.3",
 
 		// Define a local copy of jQuery
 		jQuery = function( selector, context ) {
@@ -5129,14 +5077,13 @@
 		isDefaultPrevented: returnFalse,
 		isPropagationStopped: returnFalse,
 		isImmediatePropagationStopped: returnFalse,
-		isSimulated: false,
 
 		preventDefault: function() {
 			var e = this.originalEvent;
 
 			this.isDefaultPrevented = returnTrue;
 
-			if ( e && !this.isSimulated ) {
+			if ( e ) {
 				e.preventDefault();
 			}
 		},
@@ -5145,7 +5092,7 @@
 
 			this.isPropagationStopped = returnTrue;
 
-			if ( e && !this.isSimulated ) {
+			if ( e ) {
 				e.stopPropagation();
 			}
 		},
@@ -5154,7 +5101,7 @@
 
 			this.isImmediatePropagationStopped = returnTrue;
 
-			if ( e && !this.isSimulated ) {
+			if ( e ) {
 				e.stopImmediatePropagation();
 			}
 
@@ -6084,6 +6031,19 @@
 			val = name === "width" ? elem.offsetWidth : elem.offsetHeight,
 			styles = getStyles( elem ),
 			isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
+
+		// Support: IE11 only
+		// In IE 11 fullscreen elements inside of an iframe have
+		// 100x too small dimensions (gh-1764).
+		if ( document.msFullscreenElement && window.top !== window ) {
+
+			// Support: IE11 only
+			// Running getBoundingClientRect on a disconnected node
+			// in IE throws an error.
+			if ( elem.getClientRects().length ) {
+				val = Math.round( elem.getBoundingClientRect()[ name ] * 100 );
+			}
+		}
 
 		// Some non-html elements return undefined for offsetWidth, so check for null/undefined
 		// svg - https://bugzilla.mozilla.org/show_bug.cgi?id=649285
@@ -7975,7 +7935,6 @@
 		},
 
 		// Piggyback on a donor event to simulate a different one
-		// Used only for `focus(in | out)` events
 		simulate: function( type, elem, event ) {
 			var e = jQuery.extend(
 				new jQuery.Event(),
@@ -7983,10 +7942,27 @@
 				{
 					type: type,
 					isSimulated: true
+
+					// Previously, `originalEvent: {}` was set here, so stopPropagation call
+					// would not be triggered on donor event, since in our own
+					// jQuery.event.stopPropagation function we had a check for existence of
+					// originalEvent.stopPropagation method, so, consequently it would be a noop.
+					//
+					// But now, this "simulate" function is used only for events
+					// for which stopPropagation() is noop, so there is no need for that anymore.
+					//
+					// For the 1.x branch though, guard for "click" and "submit"
+					// events is still used, but was moved to jQuery.event.stopPropagation function
+					// because `originalEvent` should point to the original event for the constancy
+					// with other events and for more focused logic
 				}
 			);
 
 			jQuery.event.trigger( e, null, elem );
+
+			if ( e.isDefaultPrevented() ) {
+				event.preventDefault();
+			}
 		}
 
 	} );
@@ -9938,6 +9914,67 @@
 
 
 /***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _jquery = __webpack_require__(1);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Modal = function () {
+	    function Modal(modalName) {
+	        _classCallCheck(this, Modal);
+
+	        this.modal = (0, _jquery2.default)('#' + modalName);
+	        this.openTrigger = (0, _jquery2.default)('.' + modalName + '--open');
+	        this.closeTrigger = (0, _jquery2.default)('.' + modalName + '--close');
+	        this.events();
+	    }
+
+	    _createClass(Modal, [{
+	        key: 'events',
+	        value: function events() {
+	            this.openTrigger.click(this.openModal.bind(this));
+	            this.closeTrigger.click(this.closeModal.bind(this));
+	            (0, _jquery2.default)(document).keyup(this.handleKeyPress.bind(this));
+	        }
+	    }, {
+	        key: 'openModal',
+	        value: function openModal() {
+	            this.modal.addClass('modal--open');
+	            return false;
+	        }
+	    }, {
+	        key: 'closeModal',
+	        value: function closeModal() {
+	            this.modal.removeClass('modal--open');
+	            return false;
+	        }
+	    }, {
+	        key: 'handleKeyPress',
+	        value: function handleKeyPress(key) {
+	            if (key.keyCode === 27) this.modal.removeClass('modal--open');
+	        }
+	    }]);
+
+	    return Modal;
+	}();
+
+	exports.default = Modal;
+
+/***/ },
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -9949,7 +9986,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _jquery = __webpack_require__(2);
+	var _jquery = __webpack_require__(1);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -9961,7 +9998,6 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	///////////////////////////////////////////////////////////////////////////////
 	var RevealOnScroll = function () {
 	    function RevealOnScroll(selector, waypointOffset) {
 	        _classCallCheck(this, RevealOnScroll);
@@ -9980,14 +10016,14 @@
 	    }, {
 	        key: 'createWaypoints',
 	        value: function createWaypoints() {
-	            var instance = this;
+	            var _ = this;
 	            this.toReveal.each(function () {
 	                var currentItem = this;
 	                new Waypoint({
 	                    element: currentItem,
-	                    offset: instance.offset,
+	                    offset: _.offset,
 	                    handler: function handler() {
-	                        (0, _jquery2.default)(currentItem).addClass('reveal-item--visible');
+	                        return (0, _jquery2.default)(currentItem).addClass('reveal-item--visible');
 	                    }
 	                });
 	            });
@@ -10761,526 +10797,6 @@
 	  Waypoint.Adapter = NoFrameworkAdapter
 	}())
 	;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _jquery = __webpack_require__(2);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	var _noframework = __webpack_require__(4);
-
-	var _noframework2 = _interopRequireDefault(_noframework);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var StickyHeader = function () {
-	    function StickyHeader() {
-	        _classCallCheck(this, StickyHeader);
-
-	        this.header = (0, _jquery2.default)('.header');
-	        this.triggerElement = (0, _jquery2.default)('.large-hero__title');
-	        this.setHeaderWaypoint();
-	    }
-
-	    _createClass(StickyHeader, [{
-	        key: 'setHeaderWaypoint',
-	        value: function setHeaderWaypoint() {
-	            var head = this;
-	            new Waypoint({
-	                element: head.triggerElement[0],
-	                handler: function handler() {
-	                    head.header.toggleClass('header--dark');
-	                }
-	            });
-	        }
-	    }]);
-
-	    return StickyHeader;
-	}();
-
-	exports.default = StickyHeader;
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _jquery = __webpack_require__(2);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var Modal = function () {
-	    function Modal(modalName) {
-	        _classCallCheck(this, Modal);
-
-	        this.modal = (0, _jquery2.default)('#' + modalName);
-	        this.openTrigger = (0, _jquery2.default)('.' + modalName + '--open');
-	        this.closeTrigger = (0, _jquery2.default)('.' + modalName + '--close');
-	        this.events();
-	    }
-
-	    _createClass(Modal, [{
-	        key: 'events',
-	        value: function events() {
-	            this.openTrigger.click(this.openModal.bind(this));
-	            this.closeTrigger.click(this.closeModal.bind(this));
-	            (0, _jquery2.default)(document).keyup(this.handleKeyPress.bind(this));
-	        }
-	    }, {
-	        key: 'openModal',
-	        value: function openModal() {
-	            this.modal.addClass('modal--open');
-	            return false;
-	        }
-	    }, {
-	        key: 'closeModal',
-	        value: function closeModal() {
-	            this.modal.removeClass('modal--open');
-	            return false;
-	        }
-	    }, {
-	        key: 'handleKeyPress',
-	        value: function handleKeyPress(key) {
-	            if (key.keyCode === 27) this.modal.removeClass('modal--open');
-	        }
-	    }]);
-
-	    return Modal;
-	}();
-
-	exports.default = Modal;
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _jquery = __webpack_require__(2);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	var _jquerySmoothScroll = __webpack_require__(8);
-
-	var _jquerySmoothScroll2 = _interopRequireDefault(_jquerySmoothScroll);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var ScrollSpy = function () {
-	    function ScrollSpy() {
-	        _classCallCheck(this, ScrollSpy);
-
-	        this.pageSections = (0, _jquery2.default)('.page-section');
-	        this.links = (0, _jquery2.default)('.primary-nav a');
-	        this.createSectionWaypoints();
-	        this.addSmoothScrolling();
-	        this.lazyImages = (0, _jquery2.default)('.lazyload');
-	        this.refreshWaypoints();
-	    }
-
-	    _createClass(ScrollSpy, [{
-	        key: 'addSmoothScrolling',
-	        value: function addSmoothScrolling() {
-	            this.links.smoothScroll();
-	        }
-	    }, {
-	        key: 'refreshWaypoints',
-	        value: function refreshWaypoints() {
-	            this.lazyImages.load(function () {
-	                Waypoint.refreshAll();
-	            });
-	        }
-	    }, {
-	        key: 'createSectionWaypoints',
-	        value: function createSectionWaypoints() {
-	            var instance = this;
-	            this.pageSections.each(function () {
-	                var currentPageSection = this;
-	                new Waypoint({
-	                    element: currentPageSection,
-	                    offset: '18%',
-	                    handler: function handler(direction) {
-	                        if (direction === 'down') {
-	                            if (instance.links.hasClass('current-link')) (0, _jquery2.default)('.primary-nav a').removeClass('current-link');
-	                            (0, _jquery2.default)(currentPageSection.getAttribute('data-link')).addClass('current-link');
-	                        }
-	                    }
-	                });
-	                new Waypoint({
-	                    element: currentPageSection,
-	                    offset: '-40%',
-	                    handler: function handler(direction) {
-	                        if (direction === 'up') {
-	                            if (instance.links.hasClass('current-link')) (0, _jquery2.default)('.primary-nav a').removeClass('current-link');
-	                            (0, _jquery2.default)(currentPageSection.getAttribute('data-link')).addClass('current-link');
-	                        }
-	                    }
-	                });
-	            });
-	        }
-	    }]);
-
-	    return ScrollSpy;
-	}();
-
-	exports.default = ScrollSpy;
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	 * jQuery Smooth Scroll - v2.0.0 - 2016-07-31
-	 * https://github.com/kswedberg/jquery-smooth-scroll
-	 * Copyright (c) 2016 Karl Swedberg
-	 * Licensed MIT
-	 */
-
-	(function(factory) {
-	  if (true) {
-	    // AMD. Register as an anonymous module.
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(2)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	  } else if (typeof module === 'object' && module.exports) {
-	    // CommonJS
-	    factory(require('jquery'));
-	  } else {
-	    // Browser globals
-	    factory(jQuery);
-	  }
-	}(function($) {
-
-	  var version = '2.0.0';
-	  var optionOverrides = {};
-	  var defaults = {
-	    exclude: [],
-	    excludeWithin: [],
-	    offset: 0,
-
-	    // one of 'top' or 'left'
-	    direction: 'top',
-
-	    // if set, bind click events through delegation
-	    //  supported since jQuery 1.4.2
-	    delegateSelector: null,
-
-	    // jQuery set of elements you wish to scroll (for $.smoothScroll).
-	    //  if null (default), $('html, body').firstScrollable() is used.
-	    scrollElement: null,
-
-	    // only use if you want to override default behavior
-	    scrollTarget: null,
-
-	    // fn(opts) function to be called before scrolling occurs.
-	    // `this` is the element(s) being scrolled
-	    beforeScroll: function() {},
-
-	    // fn(opts) function to be called after scrolling occurs.
-	    // `this` is the triggering element
-	    afterScroll: function() {},
-
-	    // easing name. jQuery comes with "swing" and "linear." For others, you'll need an easing plugin
-	    // from jQuery UI or elsewhere
-	    easing: 'swing',
-
-	    // speed can be a number or 'auto'
-	    // if 'auto', the speed will be calculated based on the formula:
-	    // (current scroll position - target scroll position) / autoCoeffic
-	    speed: 400,
-
-	    // coefficient for "auto" speed
-	    autoCoefficient: 2,
-
-	    // $.fn.smoothScroll only: whether to prevent the default click action
-	    preventDefault: true
-	  };
-
-	  var getScrollable = function(opts) {
-	    var scrollable = [];
-	    var scrolled = false;
-	    var dir = opts.dir && opts.dir === 'left' ? 'scrollLeft' : 'scrollTop';
-
-	    this.each(function() {
-	      var el = $(this);
-
-	      if (this === document || this === window) {
-	        return;
-	      }
-
-	      if (document.scrollingElement && (this === document.documentElement || this === document.body)) {
-	        scrollable.push(document.scrollingElement);
-
-	        return false;
-	      }
-
-	      if (el[dir]() > 0) {
-	        scrollable.push(this);
-	      } else {
-	        // if scroll(Top|Left) === 0, nudge the element 1px and see if it moves
-	        el[dir](1);
-	        scrolled = el[dir]() > 0;
-
-	        if (scrolled) {
-	          scrollable.push(this);
-	        }
-	        // then put it back, of course
-	        el[dir](0);
-	      }
-	    });
-
-	    if (!scrollable.length) {
-	      this.each(function() {
-	        // If no scrollable elements and <html> has scroll-behavior:smooth because
-	        // "When this property is specified on the root element, it applies to the viewport instead."
-	        // and "The scroll-behavior property of the … body element is *not* propagated to the viewport."
-	        // → https://drafts.csswg.org/cssom-view/#propdef-scroll-behavior
-	        if (this === document.documentElement && $(this).css('scrollBehavior') === 'smooth') {
-	          scrollable = [this];
-	        }
-
-	        // If still no scrollable elements, fall back to <body>,
-	        // if it's in the jQuery collection
-	        // (doing this because Safari sets scrollTop async,
-	        // so can't set it to 1 and immediately get the value.)
-	        if (!scrollable.length && this.nodeName === 'BODY') {
-	          scrollable = [this];
-	        }
-	      });
-	    }
-
-	    // Use the first scrollable element if we're calling firstScrollable()
-	    if (opts.el === 'first' && scrollable.length > 1) {
-	      scrollable = [scrollable[0]];
-	    }
-
-	    return scrollable;
-	  };
-
-	  $.fn.extend({
-	    scrollable: function(dir) {
-	      var scrl = getScrollable.call(this, {dir: dir});
-
-	      return this.pushStack(scrl);
-	    },
-	    firstScrollable: function(dir) {
-	      var scrl = getScrollable.call(this, {el: 'first', dir: dir});
-
-	      return this.pushStack(scrl);
-	    },
-
-	    smoothScroll: function(options, extra) {
-	      options = options || {};
-
-	      if (options === 'options') {
-	        if (!extra) {
-	          return this.first().data('ssOpts');
-	        }
-
-	        return this.each(function() {
-	          var $this = $(this);
-	          var opts = $.extend($this.data('ssOpts') || {}, extra);
-
-	          $(this).data('ssOpts', opts);
-	        });
-	      }
-
-	      var opts = $.extend({}, $.fn.smoothScroll.defaults, options);
-
-	      var clickHandler = function(event) {
-	        var escapeSelector = function(str) {
-	          return str.replace(/(:|\.|\/)/g, '\\$1');
-	        };
-
-	        var link = this;
-	        var $link = $(this);
-	        var thisOpts = $.extend({}, opts, $link.data('ssOpts') || {});
-	        var exclude = opts.exclude;
-	        var excludeWithin = thisOpts.excludeWithin;
-	        var elCounter = 0;
-	        var ewlCounter = 0;
-	        var include = true;
-	        var clickOpts = {};
-	        var locationPath = $.smoothScroll.filterPath(location.pathname);
-	        var linkPath = $.smoothScroll.filterPath(link.pathname);
-	        var hostMatch = location.hostname === link.hostname || !link.hostname;
-	        var pathMatch = thisOpts.scrollTarget || (linkPath === locationPath);
-	        var thisHash = escapeSelector(link.hash);
-
-	        if (thisHash && !$(thisHash).length) {
-	          include = false;
-	        }
-
-	        if (!thisOpts.scrollTarget && (!hostMatch || !pathMatch || !thisHash)) {
-	          include = false;
-	        } else {
-	          while (include && elCounter < exclude.length) {
-	            if ($link.is(escapeSelector(exclude[elCounter++]))) {
-	              include = false;
-	            }
-	          }
-
-	          while (include && ewlCounter < excludeWithin.length) {
-	            if ($link.closest(excludeWithin[ewlCounter++]).length) {
-	              include = false;
-	            }
-	          }
-	        }
-
-	        if (include) {
-	          if (thisOpts.preventDefault) {
-	            event.preventDefault();
-	          }
-
-	          $.extend(clickOpts, thisOpts, {
-	            scrollTarget: thisOpts.scrollTarget || thisHash,
-	            link: link
-	          });
-
-	          $.smoothScroll(clickOpts);
-	        }
-	      };
-
-	      if (options.delegateSelector !== null) {
-	        this
-	        .off('click.smoothscroll', options.delegateSelector)
-	        .on('click.smoothscroll', options.delegateSelector, clickHandler);
-	      } else {
-	        this
-	        .off('click.smoothscroll')
-	        .on('click.smoothscroll', clickHandler);
-	      }
-
-	      return this;
-	    }
-	  });
-
-	  $.smoothScroll = function(options, px) {
-	    if (options === 'options' && typeof px === 'object') {
-	      return $.extend(optionOverrides, px);
-	    }
-	    var opts, $scroller, scrollTargetOffset, speed, delta;
-	    var scrollerOffset = 0;
-	    var offPos = 'offset';
-	    var scrollDir = 'scrollTop';
-	    var aniProps = {};
-	    var aniOpts = {};
-
-	    if (typeof options === 'number') {
-	      opts = $.extend({link: null}, $.fn.smoothScroll.defaults, optionOverrides);
-	      scrollTargetOffset = options;
-	    } else {
-	      opts = $.extend({link: null}, $.fn.smoothScroll.defaults, options || {}, optionOverrides);
-
-	      if (opts.scrollElement) {
-	        offPos = 'position';
-
-	        if (opts.scrollElement.css('position') === 'static') {
-	          opts.scrollElement.css('position', 'relative');
-	        }
-	      }
-	    }
-
-	    scrollDir = opts.direction === 'left' ? 'scrollLeft' : scrollDir;
-
-	    if (opts.scrollElement) {
-	      $scroller = opts.scrollElement;
-
-	      if (!(/^(?:HTML|BODY)$/).test($scroller[0].nodeName)) {
-	        scrollerOffset = $scroller[scrollDir]();
-	      }
-	    } else {
-	      $scroller = $('html, body').firstScrollable(opts.direction);
-	    }
-
-	    // beforeScroll callback function must fire before calculating offset
-	    opts.beforeScroll.call($scroller, opts);
-
-	    scrollTargetOffset = (typeof options === 'number') ? options :
-	                          px ||
-	                          ($(opts.scrollTarget)[offPos]() &&
-	                          $(opts.scrollTarget)[offPos]()[opts.direction]) ||
-	                          0;
-
-	    aniProps[scrollDir] = scrollTargetOffset + scrollerOffset + opts.offset;
-	    speed = opts.speed;
-
-	    // automatically calculate the speed of the scroll based on distance / coefficient
-	    if (speed === 'auto') {
-
-	      // $scroller[scrollDir]() is position before scroll, aniProps[scrollDir] is position after
-	      // When delta is greater, speed will be greater.
-	      delta = Math.abs(aniProps[scrollDir] - $scroller[scrollDir]());
-
-	      // Divide the delta by the coefficient
-	      speed = delta / opts.autoCoefficient;
-	    }
-
-	    aniOpts = {
-	      duration: speed,
-	      easing: opts.easing,
-	      complete: function() {
-	        opts.afterScroll.call(opts.link, opts);
-	      }
-	    };
-
-	    if (opts.step) {
-	      aniOpts.step = opts.step;
-	    }
-
-	    if ($scroller.length) {
-	      $scroller.stop().animate(aniProps, aniOpts);
-	    } else {
-	      opts.afterScroll.call(opts.link, opts);
-	    }
-	  };
-
-	  $.smoothScroll.version = version;
-	  $.smoothScroll.filterPath = function(string) {
-	    string = string || '';
-
-	    return string
-	      .replace(/^\//, '')
-	      .replace(/(?:index|default).[a-zA-Z]{3,4}$/, '')
-	      .replace(/\/$/, '');
-	  };
-
-	  // default options
-	  $.fn.smoothScroll.defaults = defaults;
-
-	}));
-
-
 
 /***/ }
 /******/ ]);

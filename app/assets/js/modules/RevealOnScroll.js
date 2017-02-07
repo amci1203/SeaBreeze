@@ -1,29 +1,25 @@
-import $ from 'jquery';
+import $         from 'jquery';
 import waypoints from '../../../../node_modules/waypoints/lib/noframework.waypoints';
-///////////////////////////////////////////////////////////////////////////////
-class RevealOnScroll {
+
+export default class RevealOnScroll {
     constructor (selector, waypointOffset) {
         this.toReveal = $(selector);
-        this.offset = waypointOffset;
+        this.offset   = waypointOffset;
         this.hide();
         this.createWaypoints();
     }
-    hide () {
-        this.toReveal.addClass('reveal-item');
-    }
+
+    hide () { this.toReveal.addClass('reveal-item') }
+
     createWaypoints () {
-        let instance = this;
+        let _ = this;
         this.toReveal.each(function () {
             let currentItem = this;
             new Waypoint({
-                element: currentItem,
-                offset: instance.offset,
-                handler: function () {
-                    $(currentItem).addClass('reveal-item--visible');
-                }
+                element : currentItem,
+                offset  : _.offset,
+                handler : () => $(currentItem).addClass('reveal-item--visible')
             })
         })
     }
 }
-
-export default RevealOnScroll;
