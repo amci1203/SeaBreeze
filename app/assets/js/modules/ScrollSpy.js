@@ -4,7 +4,8 @@ import smooth from 'jquery-smooth-scroll';
 export default function ScrollSpy () {
     const pageSections = $('.page-section'),
           lazyImages   = $('.lazyload'),
-          links        = $('.primary-nav a');
+          links        = $('.primary-nav a'),
+          anchors      = $('.anchor');
 
 
     function sectionChange (section, direction, targetDirection) {
@@ -30,7 +31,9 @@ export default function ScrollSpy () {
             })
         })
 
-        lazyImages.load(() => Waypoint.refreshAll());
         links.smoothScroll();
+        anchors.smoothScroll();
+        
+        lazyImages.load(() => Waypoint.refreshAll());
     })()
 }

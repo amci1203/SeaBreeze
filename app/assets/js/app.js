@@ -8,6 +8,10 @@ import ScrollSpy    from './modules/ScrollSpy';
 
 
 $(document).ready(() => {
-    StickyHeader()
-    ScrollSpy()
+    init();
 })
+
+function init () {
+    StickyHeader();
+    ScrollSpy();
+}

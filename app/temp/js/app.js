@@ -10836,7 +10836,8 @@
 	function ScrollSpy() {
 	    var pageSections = (0, _jquery2.default)('.page-section'),
 	        lazyImages = (0, _jquery2.default)('.lazyload'),
-	        links = (0, _jquery2.default)('.primary-nav a');
+	        links = (0, _jquery2.default)('.primary-nav a'),
+	        anchors = (0, _jquery2.default)('.anchor');
 
 	    function sectionChange(section, direction, targetDirection) {
 	        if (direction == targetDirection) {
@@ -10865,10 +10866,12 @@
 	            });
 	        });
 
+	        links.smoothScroll();
+	        anchors.smoothScroll();
+
 	        lazyImages.load(function () {
 	            return Waypoint.refreshAll();
 	        });
-	        links.smoothScroll();
 	    }();
 	}
 

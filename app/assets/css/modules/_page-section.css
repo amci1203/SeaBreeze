@@ -2,11 +2,9 @@
     padding: 4.5rem 0;
     &--blue {
         background-color: $mainBlue;
-        color: #222;
     }
     &--yellow {
         background-color: $mainYellow;
-        color: #222;
     }
     &--testimonials {
         background-color: #E0E6EF;

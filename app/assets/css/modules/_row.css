@@ -1,6 +1,5 @@
 .row {
     position   : relative;
-    padding    : 25px 0;
     @mixin clearfix;
     &--gutters {
         margin-right: calc($gutter-width * -1);

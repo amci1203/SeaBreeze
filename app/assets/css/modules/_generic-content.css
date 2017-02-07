@@ -1,7 +1,17 @@
 .generic-content {
+    * {
+        font-weight: 300;
+        @mixin atSmall {
+            font-size: 1.125rem;
+        }
+    }
+    a {
+        text-decoration : underline;
+        font-weight     : 700;
+        color           : inherit;
+    }
     strong { font-weight: bold }
     p {
-        font-weight: 300;
         line-height: 1.65;
         margin: 0 0 1.5rem 0;
         @mixin atSmall {
@@ -9,7 +19,19 @@
             font-size: 1.125rem;
         }
     }
-    p > a {
-        font-weight: 700;
+    
+    li {
+        margin: 10px 0;
+        line-height: 1.35;
+        @media only print {
+            margin: 5px 0;
+            line-height: normal;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+        }
+        li {
+            margin: 2px 0;
+        }
     }
 }

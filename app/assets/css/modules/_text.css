@@ -1,0 +1,8 @@
+.text {
+    &-center { text-align: center }
+    &-right  { text-align: right  }
+    &-left   { text-align: left   }
+    
+    &-white  { color: #FFF }
+    &-black  { color: #111 }
+}
