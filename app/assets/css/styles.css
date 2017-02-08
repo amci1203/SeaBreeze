@@ -23,7 +23,6 @@
 /* MULTIPLE USE BLOCKS END */
 
 /* SINGLE USE BLOCKS */
-    @import 'modules/_header';
     @import 'modules/_large-hero';
     @import 'modules/_primary-nav';
     @import 'modules/_contacts-nav';

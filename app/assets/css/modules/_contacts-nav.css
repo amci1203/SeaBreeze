@@ -1,4 +1,7 @@
 .contacts-nav {
+    @mixin smThanMedium {
+        display: none;
+    }
     position         : fixed;
     z-index          : $contacts-navZ;
     padding          : 3px 15px;

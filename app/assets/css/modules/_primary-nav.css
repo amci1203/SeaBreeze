@@ -1,18 +1,30 @@
 .primary-nav {
-    position         : relative;
+    position         : fixed;
+    height           : 1px;
+    overflow         : hidden;
     z-index          : $primary-navZ;
-    padding-top      : 20px;
-    height           : $primary-navH;
     background-color : $navs-color;
     color            : $navs-text;
-    border-top       : 3px solid $mainBlue;
-    border-bottom    : 3px solid $mainYellow;
-    @mixin atMedium { padding-top: 0 }
+    &--open {
+        li {
+            display    : block;
+            text-align : center;
+        }
+    }
+    @mixin atMedium {
+        position      : relative;
+        height        : $primary-navH;
+        border-top    : 3px solid $mainBlue;
+        border-bottom : 3px solid $mainYellow;
+        padding-top   : 0 
+    }
     &--fixed {
-        position      : fixed;
-        top           : 0;
-        width         : 100%;
-        padding       : 0;
+        @mixin atMedium {
+            position : fixed;
+            top      : 0;
+            width    : 100%;
+            padding  : 0;
+        }
     }
     ul {
         @mixin clearfix;
@@ -46,6 +58,63 @@
             background-color : $mainYellow;
             color            : #111;
             font-weight      : 800;
+        }
+    }
+}
+
+.menu-toggle {
+    @mixin atMedium { display: none }
+    @mixin hCenter;
+    z-index          : 300;
+    bottom           : 10px;
+    background-color : $navs-color;
+    width            : 50px;
+    height           : 50px;
+    border           : none;
+    border-radius    : 25px; 
+    .top {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 3px;
+        background-color: #FFF;
+        transition: transform 0.3s ease-out;
+    }
+    .middle {
+        @mixin hCenter;
+        top: 50%;
+        transform: translateY(-50%) scaleX(1);
+        width: 20px;
+        height: 3px;
+        background-color: #FFF;
+        opacity: 1;
+        transition: all 0.3s ease-out;
+    }
+    .bottom {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 20px;
+        height: 3px;
+        background-color: #FFF;
+        transition: transform 0.3s ease-out;
+    }
+    &--close {
+        &::before {
+            transform: rotate(45deg) scaleX(1.25);
+            transform-origin: top left;
+        }
+        .middle {
+            transform: scaleX(0);
+            opacity: 0;
+            transform-origin: left;
+        }
+        &::after {
+            transform: rotate(-45deg) scaleX(1.25);
+            transform-origin: bottom left;
         }
     }
 }

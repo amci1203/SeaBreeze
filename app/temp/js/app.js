@@ -73,9 +73,13 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	(0, _jquery2.default)(document).ready(function () {
+	    init();
+	});
+
+	function init() {
 	    (0, _StickyHeader2.default)();
 	    (0, _ScrollSpy2.default)();
-	});
+	}
 
 /***/ },
 /* 1 */
