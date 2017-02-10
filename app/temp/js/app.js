@@ -70,6 +70,10 @@
 
 	var _ScrollSpy2 = _interopRequireDefault(_ScrollSpy);
 
+	var _MobileMenu = __webpack_require__(8);
+
+	var _MobileMenu2 = _interopRequireDefault(_MobileMenu);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	(0, _jquery2.default)(document).ready(function () {
@@ -79,6 +83,7 @@
 	function init() {
 	    (0, _StickyHeader2.default)();
 	    (0, _ScrollSpy2.default)();
+	    (0, _MobileMenu2.default)();
 	}
 
 /***/ },
@@ -11203,6 +11208,45 @@
 	}));
 
 
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = MobileMenu;
+
+	var _jquery = __webpack_require__(1);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function MobileMenu() {
+	    var icon = (0, _jquery2.default)('.menu-toggle'),
+	        content = (0, _jquery2.default)('.primary-nav'),
+	        links = content.find('a');
+
+	    function toggleMenu() {
+	        (0, _jquery2.default)('html').toggleClass('scroll-lock');
+	        icon.toggleClass('menu-toggle--close');
+	        content.toggleClass('primary-nav--open');
+	    }
+
+	    function closeMenu() {
+	        var targetClass = 'primary-nav--open';
+	        if (content.hasClass(targetClass)) toggleMenu();
+	    }
+
+	    return function () {
+	        icon.click(toggleMenu);
+	        links.click(closeMenu);
+	    }();
+	}
 
 /***/ }
 /******/ ]);

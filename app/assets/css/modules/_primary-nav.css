@@ -1,22 +1,24 @@
 .primary-nav {
-    position         : fixed;
-    height           : 1px;
-    overflow         : hidden;
     z-index          : $primary-navZ;
     background-color : $navs-color;
     color            : $navs-text;
-    &--open {
-        li {
-            display    : block;
-            text-align : center;
-        }
+    transition       : all 0.3s ease-in;
+    @mixin smThanMedium {
+        position  : fixed;
+        top       : 0;
+        height    : 0;
+        width     : 100%;
+        overflow  : hidden;
     }
     @mixin atMedium {
         position      : relative;
         height        : $primary-navH;
         border-top    : 3px solid $mainBlue;
         border-bottom : 3px solid $mainYellow;
-        padding-top   : 0 
+        padding-top   : 0
+    }
+    &--open {
+        height : 100%;
     }
     &--fixed {
         @mixin atMedium {
@@ -31,15 +33,39 @@
         margin     : 0;
         padding    : 0;
         text-align : center;
+        @mixin smThanMedium {
+            @mixin deadCenter;
+            width      : 100%;
+        }
     }
     li {
         position    : relative;
-        top         : -6px;
-        display     : inline-block;
         margin      : 0;
         list-style  : none;
         font-weight : 300;
         font-size   : 1rem;
+        display     : block;
+        @mixin smThanMedium {
+            width: 50%;
+            &:nth-child(odd) {
+                float: left;
+            }
+            &:nth-child(even) {
+                float: right;
+            }
+        }
+        @mixin atMedium {
+            display : inline-block;
+            top     : -6px;
+        }
+    }
+    .icon {
+        @mixin smThanMedium {
+
+        }
+        @mixin atMedium {
+
+        }
     }
     a {
         @mixin noTextDecoration;
@@ -65,56 +91,71 @@
 .menu-toggle {
     @mixin atMedium { display: none }
     @mixin hCenter;
+    padding          : 0;
     z-index          : 300;
     bottom           : 10px;
     background-color : $navs-color;
     width            : 50px;
     height           : 50px;
     border           : none;
-    border-radius    : 25px; 
-    .top {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 20px;
-        height: 3px;
-        background-color: #FFF;
-        transition: transform 0.3s ease-out;
-    }
-    .middle {
-        @mixin hCenter;
-        top: 50%;
-        transform: translateY(-50%) scaleX(1);
-        width: 20px;
-        height: 3px;
-        background-color: #FFF;
-        opacity: 1;
-        transition: all 0.3s ease-out;
-    }
-    .bottom {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 20px;
-        height: 3px;
-        background-color: #FFF;
-        transition: transform 0.3s ease-out;
-    }
-    &--close {
+    border-radius    : 25px;
+
+    .hamburger {
+        @mixin deadCenter;
+        width  : 20px;
+        height : 20px;
         &::before {
-            transform: rotate(45deg) scaleX(1.25);
-            transform-origin: top left;
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 3px;
+            background-color: #FFF;
+            transition: transform 0.3s ease-out;
         }
         .middle {
-            transform: scaleX(0);
-            opacity: 0;
-            transform-origin: left;
+            position  : absolute;
+            top       : 50%;
+            left      : 0;
+            transform : translateY(-50%) scaleX(1);
+            width     : 20px;
+            height    : 3px;
+            opacity   : 1;
+            background-color : #FFF;
+            transition       : all 0.3s ease-out;
         }
         &::after {
-            transform: rotate(-45deg) scaleX(1.25);
-            transform-origin: bottom left;
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 20px;
+            height: 3px;
+            background-color: #FFF;
+            transition: transform 0.3s ease-out;
+        }
+    }
+    &--close {
+        background-color : #FFF;
+        .hamburger {
+            left: 27px;
+            &::before {
+                transform        : rotate(45deg) scaleX(1.25);
+                transform-origin : top left;
+                background-color : $navs-color;
+            }
+            .middle {
+                opacity          : 0;
+                transform        : scaleX(0);
+                transform-origin : left;
+                background-color : $navs-color;
+            }
+            &::after {
+                transform         : rotate(-45deg) scaleX(1.25);
+                transform-origin : bottom left;
+                background-color : $navs-color;
+            }
         }
     }
 }

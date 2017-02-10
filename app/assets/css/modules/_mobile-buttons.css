@@ -1,0 +1,7 @@
+.mobile-buttons {
+    position: fixed;
+    bottom: 0;
+    min-height: 40px;
+    width: 100%;
+    z-index : 1000;
+}
