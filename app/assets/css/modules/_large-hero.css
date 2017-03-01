@@ -1,19 +1,27 @@
 .large-hero {
-    position: relative;
-    border-bottom: 5px solid $mainBlue;
+    position      : relative;
+    border-bottom : 5px solid $mainBlue;
+    overflow      : hidden;
     &__background-image {
-        position : fixed;
-        z-index  : -100;
         display  : block;
-        
-        &.push-up {
+        z-index  : -100;
+        width    : 100%;
+
+        @mixin smThanMedium {
+            position: absolute;
+        }
+        @mixin atMedium {
+            position : fixed;
             top: -30%;
         }
     }
     &__splash-image {
         @mixin centerBlock;
-        max-width  : 60%;
-        margin-top : 3.35rem;
+        max-width  : 80%;
+        @mixin atMedium {
+            max-width  : 60%;
+            margin-top : 3.35rem;
+        }
     }
     &__text-content {
         position: absolute;

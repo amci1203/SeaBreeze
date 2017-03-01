@@ -1,33 +1,75 @@
 .primary-nav {
-    position         : relative;
     z-index          : $primary-navZ;
-    padding-top      : 20px;
-    height           : $primary-navH;
     background-color : $navs-color;
     color            : $navs-text;
-    border-top       : 3px solid $mainBlue;
-    border-bottom    : 3px solid $mainYellow;
-    @mixin atMedium { padding-top: 0 }
+    transition       : all 0.2s ease-in;
+    @mixin smThanMedium {
+        position  : fixed;
+        top       : 0;
+        height    : 0;
+        width     : 100%;
+        overflow  : hidden;
+    }
+    @mixin atMedium {
+        position      : relative;
+        height        : $primary-navH;
+        border-top    : 3px solid $mainBlue;
+        border-bottom : 3px solid $mainYellow;
+        padding-top   : 0
+    }
+    &--open {
+        height : 100%;
+    }
     &--fixed {
-        position      : fixed;
-        top           : 0;
-        width         : 100%;
-        padding       : 0;
+        @mixin atMedium {
+            position   : fixed;
+            top        : 0;
+            width      : 100%;
+            padding    : 0;
+            margin-top : calc($primary-navH * -1);
+            &.visible {
+                margin-top: 0;
+            }
+        }
     }
     ul {
         @mixin clearfix;
         margin     : 0;
         padding    : 0;
         text-align : center;
+        @mixin smThanMedium {
+            @mixin deadCenter;
+            width      : 100%;
+        }
     }
     li {
         position    : relative;
-        top         : -6px;
-        display     : inline-block;
         margin      : 0;
         list-style  : none;
         font-weight : 300;
         font-size   : 1rem;
+        display     : block;
+        @mixin smThanMedium {
+            width: 50%;
+            &:nth-child(odd) {
+                float: left;
+            }
+            &:nth-child(even) {
+                float: right;
+            }
+        }
+        @mixin atMedium {
+            display : inline-block;
+            top     : -6px;
+        }
+    }
+    .icon {
+        @mixin smThanMedium {
+
+        }
+        @mixin atMedium {
+
+        }
     }
     a {
         @mixin noTextDecoration;
@@ -40,8 +82,14 @@
             font-size : 1.25rem;
             padding   : calc($primary-navH / 2) 25px;
         }
-        &:hover  { background-color: $mainBlue }
-        &.current-link { color : $mainYellow }
+        &:hover  {
+            background-color : $mainBlue;
+            color            : #111;
+        }
+        &.current-link {
+            color: $mainYellow;
+            &:hover { background-color: transparent }
+        }
         &.active {
             background-color : $mainYellow;
             color            : #111;
@@ -49,3 +97,4 @@
         }
     }
 }
+

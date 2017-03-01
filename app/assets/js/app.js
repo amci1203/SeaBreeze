@@ -1,10 +1,10 @@
 import $ from 'jquery';
-import waypoints from '../../../node_modules/waypoints/lib/noframework.waypoints';
 
+import Menu         from './modules/Menu';
 import Modal        from './modules/Modal';
-import ScrollReveal from './modules/RevealOnScroll';
-import StickyHeader from './modules/StickyHeader';
 import ScrollSpy    from './modules/ScrollSpy';
+import StickyHeader from './modules/StickyHeader';
+import ScrollReveal from './modules/RevealOnScroll';
 
 
 $(document).ready(() => {
@@ -12,6 +12,9 @@ $(document).ready(() => {
 })
 
 function init () {
-    StickyHeader();
+    Menu();
     ScrollSpy();
+    StickyHeader();
+    ScrollReveal('.feature-item', '65%');
+    ScrollReveal('.photo', '85%', false);
 }

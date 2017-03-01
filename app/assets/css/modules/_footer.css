@@ -3,15 +3,24 @@
     color            : $navs-text;
     font-size        : 1rem;
     text-align       : center;
-    padding          : 2.15rem 0;
+    padding          : 0.35rem 0;
+    @mixin atMedium {
+        padding: 2.15rem 0;
+    }
     
     &__text {
         font-weight: 200;
         display: block;
         margin-bottom: 1rem;
+        @mixin smThanMedium {
+            font-size: 0.85rem;
+        }
     }
     
     ul {
+        @mixin smThanMedium {
+            display: none;
+        }
         @mixin clearfix;
         margin     : 0;
         padding    : 0;
@@ -23,7 +32,7 @@
         display      : inline-block;
         margin       : 0;
         list-style   : none;
-        border-right : 1px solid $navs-text;
+        border-right : 2px solid color($navs-color s(+ 40%));
         &:last-child { border-right: none }
         
         &:nth-child(even) { a:hover  { border-bottom: 3px solid $mainBlue } }
@@ -39,7 +48,7 @@
         height           : $footer-navH;
         padding          : calc($footer-navH / 5) 5px;
         @mixin atMedium{
-            font-size : 1.25rem;
+            font-size : 1rem;
             padding   : calc($footer-navH / 5) 5px;
         }
         

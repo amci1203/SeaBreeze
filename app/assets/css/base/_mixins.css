@@ -55,11 +55,34 @@
     top       : 50%;
     transform : translateY(-50%)
 }
+@define-mixin vFCenter {
+    position  : fixed;
+    top       : 50%;
+    transform : translateY(-50%)
+}
 
 @define-mixin hCenter {
     position  : absolute;
     left      : 50%;
     transform : translateX(-50%)
+}
+@define-mixin hFCenter {
+    position  : fixed;
+    left      : 50%;
+    transform : translateX(-50%)
+}
+
+@define-mixin deadCenter {
+    position  : absolute;
+    top       : 50%;
+    left      : 50%;
+    transform : translate(-50%, -50%);
+}
+@define-mixin deadFCenter {
+    position  : fixed;
+    top       : 50%;
+    left      : 50%;
+    transform : translate(-50%, -50%);
 }
 
 @define-mixin centerBlock {
