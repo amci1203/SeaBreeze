@@ -3,7 +3,7 @@
         display: none;
     }
     @mixin atMedium {
-        position         : fixed;
+        position         : absolute;
         z-index          : $contacts-navZ;
         padding          : 3px 15px;
         background-color : $navs-color;

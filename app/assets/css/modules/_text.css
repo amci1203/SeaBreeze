@@ -1,7 +1,11 @@
 .text {
-    &-center { text-align: center }
-    &-right  { text-align: right  }
-    &-left   { text-align: left   }
+    &-center { @mixin atMedium {text-align: center } }
+    &-right  { @mixin atMedium {text-align: right  } }
+    &-left   { @mixin atMedium {text-align: left   } }
+
+    &-fluid-center { text-align: center }
+    &-fluid-right  { text-align: right  }
+    &-fluid-left   { text-align: left   }
     
     &-white  { color: #FFF }
     &-black  { color: #111 }

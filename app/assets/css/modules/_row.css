@@ -1,7 +1,7 @@
 .row {
-    position   : relative;
+    position: relative;
     @mixin clearfix;
-    @mxin atMedium {
+    @mixin atMedium {
         .row--gutters {
             margin-right: calc($gutter-width * -1);
             & > div { padding-right: $gutter-width }

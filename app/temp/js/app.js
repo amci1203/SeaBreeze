@@ -50,29 +50,25 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _noframework = __webpack_require__(2);
+	var _Menu = __webpack_require__(2);
 
-	var _noframework2 = _interopRequireDefault(_noframework);
+	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _Modal = __webpack_require__(3);
+	var _Modal = __webpack_require__(7);
 
 	var _Modal2 = _interopRequireDefault(_Modal);
 
-	var _RevealOnScroll = __webpack_require__(4);
-
-	var _RevealOnScroll2 = _interopRequireDefault(_RevealOnScroll);
-
-	var _StickyHeader = __webpack_require__(5);
-
-	var _StickyHeader2 = _interopRequireDefault(_StickyHeader);
-
-	var _ScrollSpy = __webpack_require__(6);
+	var _ScrollSpy = __webpack_require__(8);
 
 	var _ScrollSpy2 = _interopRequireDefault(_ScrollSpy);
 
-	var _MobileMenu = __webpack_require__(8);
+	var _StickyHeader = __webpack_require__(10);
 
-	var _MobileMenu2 = _interopRequireDefault(_MobileMenu);
+	var _StickyHeader2 = _interopRequireDefault(_StickyHeader);
+
+	var _RevealOnScroll = __webpack_require__(11);
+
+	var _RevealOnScroll2 = _interopRequireDefault(_RevealOnScroll);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81,9 +77,11 @@
 	});
 
 	function init() {
-	    (0, _StickyHeader2.default)();
+	    (0, _Menu2.default)();
 	    (0, _ScrollSpy2.default)();
-	    (0, _MobileMenu2.default)();
+	    (0, _StickyHeader2.default)();
+	    (0, _RevealOnScroll2.default)('.feature-item', '65%');
+	    (0, _RevealOnScroll2.default)('.photo', '85%', false);
 	}
 
 /***/ },
@@ -9908,6 +9906,195 @@
 
 /***/ },
 /* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = Menu;
+
+	var _jquery = __webpack_require__(1);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _lodash = __webpack_require__(3);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _noframework = __webpack_require__(6);
+
+	var _noframework2 = _interopRequireDefault(_noframework);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function Menu() {
+	    var icon = (0, _jquery2.default)('.menu-toggle'),
+	        buttons = (0, _jquery2.default)('.mobile-buttons'),
+	        content = (0, _jquery2.default)('.primary-nav'),
+	        interval = 100,
+	        links = content.find('a');
+	    var prevScroll = 0,
+	        consecutives = 0,
+	        prevDirection = 'down';
+
+	    function toggleMenu() {
+	        (0, _jquery2.default)('html').toggleClass('scroll-lock');
+	        icon.toggleClass('menu-toggle--close');
+	        content.toggleClass('primary-nav--open');
+	    }
+
+	    function closeMenu() {
+	        var targetClass = 'primary-nav--open';
+	        if (content.hasClass(targetClass)) toggleMenu();
+	    }
+
+	    function handleScroll(event) {
+	        var scroll = (0, _jquery2.default)(window).scrollTop(),
+	            direction = scroll > prevScroll ? 'down' : 'up';
+	        if (direction == prevDirection) {
+	            consecutives++;
+	        } else consecutives = 0;
+	        if (consecutives == 3) {
+	            if (direction === 'up') {
+	                buttons.addClass('visible');
+	            } else {
+	                buttons.removeClass('visible');
+	            }
+	        } else prevDirection = direction;
+
+	        prevScroll = scroll;
+	    }
+
+	    function setWaypoint() {
+	        new Waypoint({
+	            element: document.getElementById('footer'),
+	            handler: function handler(dir) {
+	                document.getElementById('menu-toggle').classList.toggle('sticky');
+	            }
+	        });
+	    }
+
+	    return function () {
+	        setWaypoint();
+	        icon.click(toggleMenu);
+	        links.click(closeMenu);
+	        (0, _jquery2.default)(window).scroll(_lodash2.default.throttle(handleScroll, interval));
+	    }();
+	}
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {"use strict";
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	/**
+	 * @license
+	 * Lodash (Custom Build) lodash.com/license | Underscore.js 1.8.3 underscorejs.org/LICENSE
+	 * Build: `lodash include="throttle,debounce"`
+	 */
+	;(function () {
+	  function t() {
+	    return d.Date.now();
+	  }function e() {}function n(e, n, r) {
+	    function i(t) {
+	      var n = s,
+	          o = b;return s = b = f, j = t, d = e.apply(o, n);
+	    }function a(t) {
+	      var e = t - g;return t -= j, g === f || e >= n || 0 > e || x && t >= y;
+	    }function c() {
+	      var e = t();if (a(e)) return l(e);var o,
+	          r = setTimeout;o = e - j, e = n - (e - g), o = x ? h(e, y - o) : e, m = r(c, o);
+	    }function l(t) {
+	      return m = f, T && s ? i(t) : (s = b = f, d);
+	    }function p() {
+	      var e = t(),
+	          o = a(e);if (s = arguments, b = this, g = e, o) {
+	        if (m === f) return j = e = g, m = setTimeout(c, n), v ? i(e) : d;if (x) return m = setTimeout(c, n), i(g);
+	      }return m === f && (m = setTimeout(c, n)), d;
+	    }var s,
+	        b,
+	        y,
+	        d,
+	        m,
+	        g,
+	        j = 0,
+	        v = false,
+	        x = false,
+	        T = true;if (typeof e != "function") throw new TypeError("Expected a function");return n = u(n) || 0, o(r) && (v = !!r.leading, y = (x = "maxWait" in r) ? O(u(r.maxWait) || 0, n) : y, T = "trailing" in r ? !!r.trailing : T), p.cancel = function () {
+	      m !== f && clearTimeout(m), j = 0, s = g = b = m = f;
+	    }, p.flush = function () {
+	      return m === f ? d : l(t());
+	    }, p;
+	  }function o(t) {
+	    var e = typeof t === "undefined" ? "undefined" : _typeof(t);return null != t && ("object" == e || "function" == e);
+	  }function r(t) {
+	    return null != t && (typeof t === "undefined" ? "undefined" : _typeof(t)) == "object";
+	  }function i(t) {
+	    var e;if (!(e = (typeof t === "undefined" ? "undefined" : _typeof(t)) == "symbol") && (e = r(t))) {
+	      var n;if (null == t) n = t === f ? "[object Undefined]" : "[object Null]";else if (t = Object(t), x && x in t) {
+	        e = j.call(t, x);var o = t[x];try {
+	          t[x] = f, n = true;
+	        } catch (t) {}var i = v.call(t);n && (e ? t[x] = o : delete t[x]), n = i;
+	      } else n = v.call(t);e = "[object Symbol]" == n;
+	    }return e;
+	  }function u(t) {
+	    if (typeof t == "number") return t;if (i(t)) return a;if (o(t) && (t = typeof t.valueOf == "function" ? t.valueOf() : t, t = o(t) ? t + "" : t), typeof t != "string") return 0 === t ? t : +t;t = t.replace(c, "");var e = p.test(t);return e || s.test(t) ? b(t.slice(2), e ? 2 : 8) : l.test(t) ? a : +t;
+	  }var f,
+	      a = NaN,
+	      c = /^\s+|\s+$/g,
+	      l = /^[-+]0x[0-9a-f]+$/i,
+	      p = /^0b[01]+$/i,
+	      s = /^0o[0-7]+$/i,
+	      b = parseInt,
+	      y = (typeof self === "undefined" ? "undefined" : _typeof(self)) == "object" && self && self.Object === Object && self,
+	      d = (typeof global === "undefined" ? "undefined" : _typeof(global)) == "object" && global && global.Object === Object && global || y || Function("return this")(),
+	      m = (y = ( false ? "undefined" : _typeof(exports)) == "object" && exports && !exports.nodeType && exports) && ( false ? "undefined" : _typeof(module)) == "object" && module && !module.nodeType && module,
+	      g = Object.prototype,
+	      j = g.hasOwnProperty,
+	      v = g.toString,
+	      x = (g = d.Symbol) ? g.toStringTag : f,
+	      O = Math.max,
+	      h = Math.min;
+	  e.debounce = n, e.throttle = function (t, e, r) {
+	    var i = true,
+	        u = true;if (typeof t != "function") throw new TypeError("Expected a function");return o(r) && (i = "leading" in r ? !!r.leading : i, u = "trailing" in r ? !!r.trailing : u), n(t, e, { leading: i, maxWait: e, trailing: u });
+	  }, e.isObject = o, e.isObjectLike = r, e.isSymbol = i, e.now = t, e.toNumber = u, e.VERSION = "4.17.1", "function" == "function" && _typeof(__webpack_require__(5)) == "object" && __webpack_require__(5) ? (d._ = e, !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+	    return e;
+	  }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))) : m ? ((m.exports = e)._ = e, y._ = e) : d._ = e;
+	}).call(undefined);
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(4)(module)))
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {module.exports = __webpack_amd_options__;
+
+	/* WEBPACK VAR INJECTION */}.call(exports, {}))
+
+/***/ },
+/* 6 */
 /***/ function(module, exports) {
 
 	/*!
@@ -10670,7 +10857,7 @@
 	;
 
 /***/ },
-/* 3 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10731,98 +10918,7 @@
 	exports.default = Modal;
 
 /***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _jquery = __webpack_require__(1);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	var _noframework = __webpack_require__(2);
-
-	var _noframework2 = _interopRequireDefault(_noframework);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var RevealOnScroll = function () {
-	    function RevealOnScroll(selector, waypointOffset) {
-	        _classCallCheck(this, RevealOnScroll);
-
-	        this.toReveal = (0, _jquery2.default)(selector);
-	        this.offset = waypointOffset;
-	        this.hide();
-	        this.createWaypoints();
-	    }
-
-	    _createClass(RevealOnScroll, [{
-	        key: 'hide',
-	        value: function hide() {
-	            this.toReveal.addClass('reveal-item');
-	        }
-	    }, {
-	        key: 'createWaypoints',
-	        value: function createWaypoints() {
-	            var _ = this;
-	            this.toReveal.each(function () {
-	                var currentItem = this;
-	                new Waypoint({
-	                    element: currentItem,
-	                    offset: _.offset,
-	                    handler: function handler() {
-	                        return (0, _jquery2.default)(currentItem).addClass('reveal-item--visible');
-	                    }
-	                });
-	            });
-	        }
-	    }]);
-
-	    return RevealOnScroll;
-	}();
-
-	exports.default = RevealOnScroll;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = StickyHeader;
-
-	var _jquery = __webpack_require__(1);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function StickyHeader() {
-	    var trigger = document.getElementById('primary-nav');
-	    return function () {
-	        new Waypoint({
-	            element: trigger,
-	            handler: function handler() {
-	                document.body.classList.toggle('sticky-top');
-	                trigger.classList.toggle('primary-nav--fixed');
-	            }
-	        });
-	    }();
-	}
-
-/***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10836,9 +10932,13 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _jquerySmoothScroll = __webpack_require__(7);
+	var _jquerySmoothScroll = __webpack_require__(9);
 
 	var _jquerySmoothScroll2 = _interopRequireDefault(_jquerySmoothScroll);
+
+	var _noframework = __webpack_require__(6);
+
+	var _noframework2 = _interopRequireDefault(_noframework);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10885,7 +10985,7 @@
 	}
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -11210,7 +11310,7 @@
 
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11218,33 +11318,110 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.default = MobileMenu;
+	exports.default = StickyHeader;
 
 	var _jquery = __webpack_require__(1);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
+	var _lodash = __webpack_require__(3);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _noframework = __webpack_require__(6);
+
+	var _noframework2 = _interopRequireDefault(_noframework);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function MobileMenu() {
-	    var icon = (0, _jquery2.default)('.menu-toggle'),
-	        content = (0, _jquery2.default)('.primary-nav'),
-	        links = content.find('a');
+	function StickyHeader() {
+	    var nav = document.getElementById('primary-nav'),
+	        trigger = nav,
+	        interval = 200,
+	        requiredConsecutives = 3;
+	    var prevScroll = 0,
+	        consecutives = 2,
+	        prevDirection = 'down';
 
-	    function toggleMenu() {
-	        (0, _jquery2.default)('html').toggleClass('scroll-lock');
-	        icon.toggleClass('menu-toggle--close');
-	        content.toggleClass('primary-nav--open');
+	    function handleScroll(event) {
+	        var scroll = (0, _jquery2.default)(window).scrollTop(),
+	            direction = scroll > prevScroll ? 'down' : 'up';
+	        if (direction == prevDirection) {
+	            consecutives++;
+	        } else consecutives = 0;
+	        if (consecutives == requiredConsecutives) {
+	            if (direction === 'up') {
+	                nav.classList.add('visible');
+	            } else {
+	                nav.classList.remove('visible');
+	            }
+	        } else prevDirection = direction;
+
+	        prevScroll = scroll;
 	    }
 
-	    function closeMenu() {
-	        var targetClass = 'primary-nav--open';
-	        if (content.hasClass(targetClass)) toggleMenu();
+	    function setWaypoint() {
+	        new Waypoint({
+	            element: trigger,
+	            handler: function handler() {
+	                document.body.classList.toggle('sticky-top');
+	                nav.classList.toggle('primary-nav--fixed');
+	            }
+	        });
 	    }
 
 	    return function () {
-	        icon.click(toggleMenu);
-	        links.click(closeMenu);
+	        setWaypoint();
+	        (0, _jquery2.default)(window).scroll(_lodash2.default.throttle(handleScroll, interval));
+	    }();
+	}
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = RevealOnScroll;
+
+	var _jquery = __webpack_require__(1);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _noframework = __webpack_require__(6);
+
+	var _noframework2 = _interopRequireDefault(_noframework);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function RevealOnScroll(selector, waypointOffset, doesZoom) {
+	    var toReveal = (0, _jquery2.default)(selector.trim()),
+	        offset = waypointOffset,
+	        zooms = doesZoom == undefined ? true : doesZoom;
+
+	    return function () {
+	        if (zooms) {
+	            toReveal.addClass('reveal-item');
+	        } else {
+	            toReveal.addClass('reveal-item--no-zoom');
+	        }
+	        toReveal.each(function () {
+	            var currentItem = this;
+	            new Waypoint({
+	                element: currentItem,
+	                offset: offset,
+	                handler: function handler() {
+	                    if (zooms) {
+	                        (0, _jquery2.default)(currentItem).addClass('reveal-item--visible');
+	                    } else {
+	                        (0, _jquery2.default)(currentItem).addClass('reveal-item--no-zoom--visible');
+	                    }
+	                }
+	            });
+	        });
 	    }();
 	}
 
