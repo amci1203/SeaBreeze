@@ -1,10 +1,10 @@
 module.exports = {
     entry: {
-        app: './app/assets/js/app.js',
-        vendor: './app/assets/js/vendor.js'
+        seabreeze: './seabreeze/assets/js/seabreeze.js',
+        vendor: './seabreeze/assets/js/vendor.js'
     },
     output: {
-        path: './app/temp/js',
+        path: './seabreeze/temp/js',
         filename: '[name].js',
     },
     module: {
