@@ -1,8 +1,6 @@
 import $ from 'jquery';
 import _ from '../vendor/lodash.min';
 
-import waypoints from '../../../../node_modules/waypoints/lib/noframework.waypoints';
-
 export default function Menu () {
     const
         icon     = $('.menu-toggle'),
@@ -43,17 +41,7 @@ export default function Menu () {
         prevScroll = scroll;
     }
 
-    function setWaypoint () {
-        new Waypoint({
-            element : document.getElementById('footer'),
-            handler : dir => {
-                document.getElementById('menu-toggle').classList.toggle('sticky')
-            }
-        })
-    }
-
     return (function () {
-        setWaypoint();
         icon.click(toggleMenu);
         links.click(closeMenu);
         $(window).scroll(_.throttle(handleScroll, interval));

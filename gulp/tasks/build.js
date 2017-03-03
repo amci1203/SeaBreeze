@@ -1,9 +1,10 @@
-var gulp = require('gulp'),
-    del = require('del'),
-    usemin = require('gulp-usemin'),
-    rev = require('gulp-rev'),
-    cssNano = require('gulp-cssnano'),
-    uglify = require('gulp-uglify'),
+const
+    gulp        = require('gulp'),
+    del         = require('del'),
+    usemin      = require('gulp-usemin'),
+    rev         = require('gulp-rev'),
+    cssNano     = require('gulp-cssnano'),
+    uglify      = require('gulp-uglify'),
     minimizeIMG = require('gulp-imagemin'),
     browserSync = require('browser-sync').create();
 
@@ -30,7 +31,7 @@ gulp.task('copyGeneralFiles', ['cleanDist'], function () {
 })
 
 gulp.task('optimizeIMGs', ['cleanDist'], function () {
-    return gulp.src(['./app/assets/images/**/*', '!./app/assets/images/**/*-i.*', '!./app/assets/images/icons', '!./app/assets/images/icons/**/*'])
+    return gulp.src(['./app/assets/images/**/*', '!./app/assets/images/**/*-i.*'])
     .pipe(minimizeIMG({
         pregressive: true,
         interlaced: true,
