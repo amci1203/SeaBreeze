@@ -72,7 +72,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var views = '/app/views',
+	var views = '/seabreeze/views',
 	    findView = function findView(string) {
 	    return views + '/' + string + '.html';
 	};
