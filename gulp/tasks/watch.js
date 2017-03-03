@@ -28,7 +28,7 @@ gulp.task('watch', function () {
     watch('./app/assets/js/**/*.js', function () {
         gulp.start('scriptsRefresh');
     })
-    watch(['./app/index.html', './app/views/**/*.html'], function () {
+    watch(['./app/index.html', './app/seabreeze/views/**/*.html'], function () {
         browserSync.reload();
     });
 });

@@ -6,7 +6,7 @@ import ScrollSpy    from './modules/ScrollSpy';
 import StickyHeader from './modules/StickyHeader';
 import ScrollReveal from './modules/RevealOnScroll';
 
-const views     = '/views',
+const views     = '/seabreeze/views',
       findView  = string => `${views}/${string}.html`;
 
 $(document).ready(inject.bind(window, initModules))
