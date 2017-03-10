@@ -7,7 +7,7 @@
         z-index          : $contacts-navZ;
         padding          : 3px 15px;
         background-color : $navs-color;
-        color            : $navs-text;
+        color            : $navs-text !important;
 
         top    : 0;
         width  : 100%;
@@ -31,6 +31,8 @@
         }
         a {
             @mixin noTextDecoration;
+            color            : $navs-text !important;
+            text-decoration  : none;
             transition       : all 0.2s ease-in;
             display          : inline-block;
             margin           : 0;

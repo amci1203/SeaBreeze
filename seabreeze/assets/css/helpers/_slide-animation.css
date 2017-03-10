@@ -1,0 +1,39 @@
+$sliding-timeframe: 0.5s;
+
+@keyframes slide-right {
+    from {} 
+    to   { transform: translateX(100%); opacity: 0 }
+}
+
+@keyframes slide-left {
+    from {} 
+    to   { transform: translateX(-100%); opacity: 0 }
+}
+
+.slide-right-out  { animation: slide-left  $sliding-timeframe ease-in 0s 1 }
+.slide-left-out   { animation: slide-right $sliding-timeframe ease-in 0s 1 }
+
+.slide-right-in  {
+    z-index   : 1000;
+    animation : slide-right $sliding-timeframe ease-in 0s 1 reverse;
+}
+.slide-left-in   {
+    z-index   : 1000;
+    animation: slide-left  $sliding-timeframe ease-in 0s 1 reverse;
+}
+
+#test {
+    @mixin deadCenter;
+    
+    #test-sandbox {
+        #box {
+            @mixin hCenter;
+            position: relative;
+            background-color: #A00;
+            color: #FFF;
+            width: 200px;
+            height: 200px;
+            border: 2px solid #333;
+        }
+    }
+}

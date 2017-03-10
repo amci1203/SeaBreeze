@@ -58,21 +58,25 @@
 
 	var _Modal2 = _interopRequireDefault(_Modal);
 
-	var _ScrollSpy = __webpack_require__(7);
+	var _Gallery = __webpack_require__(7);
+
+	var _Gallery2 = _interopRequireDefault(_Gallery);
+
+	var _ScrollSpy = __webpack_require__(9);
 
 	var _ScrollSpy2 = _interopRequireDefault(_ScrollSpy);
 
-	var _StickyHeader = __webpack_require__(10);
+	var _StickyHeader = __webpack_require__(12);
 
 	var _StickyHeader2 = _interopRequireDefault(_StickyHeader);
 
-	var _RevealOnScroll = __webpack_require__(11);
+	var _RevealOnScroll = __webpack_require__(13);
 
 	var _RevealOnScroll2 = _interopRequireDefault(_RevealOnScroll);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var views = '/seabreeze/views',
+	var views = 'views',
 	    findView = function findView(string) {
 	    return views + '/' + string + '.html';
 	};
@@ -102,8 +106,9 @@
 	    (0, _Menu2.default)();
 	    (0, _ScrollSpy2.default)();
 	    (0, _StickyHeader2.default)();
-	    (0, _RevealOnScroll2.default)('.feature-item', '65%');
-	    (0, _RevealOnScroll2.default)('.photo', '25%', false);
+	    (0, _Gallery2.default)('testimonial-slides', true, true, 5);
+	    (0, _RevealOnScroll2.default)('.feature-item', '85%');
+	    (0, _RevealOnScroll2.default)('.photo', '60%', false);
 	}
 
 /***/ },
@@ -10171,17 +10176,174 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.default = Gallery;
+
+	var _jquery = __webpack_require__(1);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _slide = __webpack_require__(8);
+
+	var _slide2 = _interopRequireDefault(_slide);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function Gallery(_selector, _alwaysOpen, _autoplay, _interval) {
+	    var interval = _interval || 5,
+	        selector = _selector.trim(),
+	        gallery = (0, _jquery2.default)('#' + selector),
+	        images = gallery.find('.gallery__image'),
+	        numImages = images.length,
+	        prev = gallery.find('.prev'),
+	        next = gallery.find('.next'),
+	        playButton = gallery.find('.toggle-play'),
+	        close = gallery.find('.gallery--close'),
+	        totalImagesView = gallery.find('#total-images'),
+	        currentImageView = gallery.find('#current-image');
+	    var playing = _autoplay || false,
+	        isOpen = _alwaysOpen || false,
+	        currentImage = 0;
+
+	    function init() {
+	        totalImagesView.html(numImages);
+	        if (_alwaysOpen) {
+	            gallery.addClass('gallery--always-open');
+	            images.eq(0).addClass('active');
+	        }
+	        images.each(function (i, elm) {
+	            return elm.setAttribute('data-index', i);
+	        });
+	    }
+
+	    function openSlideshowView(event) {
+	        if (gallery.hasClass('gallery--slide-view')) return false;else {
+	            event.currentTarget.classList.add('active');
+	            currentImage = +event.currentTarget.getAttribute('data-index');
+	            currentImageView.html(currentImage + 1);
+	            gallery.toggleClass('gallery--slide-view');
+
+	            isOpen = true;
+	        }
+	    }
+
+	    function closeSlideshowView() {
+	        images.removeClass('active');
+	        gallery.removeClass('gallery--slide-view');
+
+	        isOpen = false;
+	    }
+
+	    function slideGallery(direction) {
+	        (0, _slide2.default)(images, currentImage, numImages, direction, function (newIndex) {
+	            currentImage = newIndex;
+	            if (currentImageView) currentImageView.html(newIndex + 1);
+	        });
+	    }
+
+	    function togglePlay() {
+	        var isPlaying = playing ? true : false;
+	        playing = isPlaying;
+	    }
+
+	    function play() {
+	        if (isOpen && playing) {
+	            setInterval(slideGallery.bind(null, 'right'), interval * 1000);
+	        }
+	    }
+
+	    function handleKeyPress(event) {
+	        if (!gallery.hasClass('gallery--slide-view')) return false;else {
+	            var keyCode = event.keyCode;
+	            if ([37, 39].indexOf(keyCode) !== -1) {
+	                var direction = keyCode === 37 ? 'left' : 'right';
+	                slideGallery(direction);
+	            } else if (keyCode === 27) {
+	                closeSlideshowView();
+	            } else return false;
+	        }
+	    }
+
+	    return function () {
+	        init();
+
+	        if (_alwaysOpen) {
+	            if (_autoplay) play();
+	        } else {
+	            (0, _jquery2.default)(document).keyup(handleKeyPress);
+	            images.click(openSlideshowView);
+	            close.click(closeSlideshowView);
+	        }
+	        prev.click(slideGallery.bind(null, 'left'));
+	        next.click(slideGallery.bind(null, 'right'));
+	    }();
+	}
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = slide;
+
+	var _jquery = __webpack_require__(1);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function slide(images, currentImage, numImages, direction, cb) {
+	    //    images.not((i, elm) => i == elm.getAttribute('data-index')).removeClass('active');
+	    var newCurrent = '',
+	        newAnimateCls = '',
+	        oldAnimateCls = '';
+	    if (direction == 'right') {
+	        newAnimateCls = 'slide-left-in';
+	        oldAnimateCls = 'slide-left-out';
+	        var to = numImages - 1 === currentImage ? 0 : currentImage + 1;
+	        newCurrent = to;
+	        images.eq(to).addClass('active ' + newAnimateCls);
+	        images.eq(currentImage).addClass(oldAnimateCls);
+	    } else if (direction == 'left') {
+	        newAnimateCls = 'slide-right-in';
+	        oldAnimateCls = 'slide-right-out';
+	        var _to = currentImage === 0 ? numImages - 1 : currentImage - 1;
+	        newCurrent = _to;
+	        images.eq(_to).addClass('active ' + newAnimateCls);
+	        images.eq(currentImage).addClass(oldAnimateCls);
+	    }
+
+	    setTimeout(function () {
+	        images.eq(newCurrent).removeClass(newAnimateCls);
+	        images.eq(currentImage).removeClass('active ' + oldAnimateCls);
+
+	        cb(newCurrent);
+	    }, 500);
+	}
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.default = ScrollSpy;
 
 	var _jquery = __webpack_require__(1);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _jquerySmoothScroll = __webpack_require__(8);
+	var _jquerySmoothScroll = __webpack_require__(10);
 
 	var _jquerySmoothScroll2 = _interopRequireDefault(_jquerySmoothScroll);
 
-	var _noframework = __webpack_require__(9);
+	var _noframework = __webpack_require__(11);
 
 	var _noframework2 = _interopRequireDefault(_noframework);
 
@@ -10230,7 +10392,7 @@
 	}
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10555,7 +10717,7 @@
 
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/*!
@@ -11318,7 +11480,7 @@
 	;
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11336,7 +11498,7 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _noframework = __webpack_require__(9);
+	var _noframework = __webpack_require__(11);
 
 	var _noframework2 = _interopRequireDefault(_noframework);
 
@@ -11385,7 +11547,7 @@
 	}
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11399,7 +11561,7 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _noframework = __webpack_require__(9);
+	var _noframework = __webpack_require__(11);
 
 	var _noframework2 = _interopRequireDefault(_noframework);
 
@@ -11407,7 +11569,7 @@
 
 	function RevealOnScroll(selector, waypointOffset, doesZoom) {
 	    var toReveal = (0, _jquery2.default)(selector.trim()),
-	        offset = waypointOffset,
+	        offset = waypointOffset || null,
 	        zooms = doesZoom == undefined ? true : doesZoom;
 
 	    return function () {

@@ -3,7 +3,7 @@ import waypoints from '../../../../node_modules/waypoints/lib/noframework.waypoi
 
 export default function RevealOnScroll (selector, waypointOffset, doesZoom) {
     const toReveal = $(selector.trim()),
-          offset   = waypointOffset,
+          offset   = waypointOffset || null,
           zooms    = doesZoom == undefined ? true : doesZoom;
 
     return (function () {
