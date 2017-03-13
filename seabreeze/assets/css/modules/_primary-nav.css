@@ -34,12 +34,15 @@
     }
     ul {
         @mixin clearfix;
+        text-align : center;
         margin     : 0;
         padding    : 0;
-        text-align : center;
         @mixin smThanMedium {
-            @mixin deadCenter;
-            width      : 100%;
+            position  : absolute;
+            top       : 50%;
+            left      : 50%;
+            transform : translate(-50%, -50%);;
+            width     : 100%;
         }
     }
     li {
@@ -64,12 +67,8 @@
         }
     }
     .icon {
-        @mixin smThanMedium {
-
-        }
-        @mixin atMedium {
-
-        }
+        @mixin smThanMedium {}
+        @mixin atMedium {}
     }
     a {
         @mixin noTextDecoration;

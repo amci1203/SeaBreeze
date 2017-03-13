@@ -53,3 +53,8 @@
         }
     }
 }
+
+#testimonials {
+    @mixin smThanMedium { padding-bottom: 12rem }
+    padding-bottom: 7rem;
+}

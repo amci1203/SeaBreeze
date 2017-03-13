@@ -20,7 +20,10 @@
         }
     }
     
+    ul { padding: 0 }
+
     li {
+        list-style-type: none;
         margin: 6px 0;
         line-height: 1.35;
         @media only print {

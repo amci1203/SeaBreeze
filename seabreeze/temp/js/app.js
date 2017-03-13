@@ -62,15 +62,19 @@
 
 	var _Gallery2 = _interopRequireDefault(_Gallery);
 
-	var _ScrollSpy = __webpack_require__(9);
+	var _Injector = __webpack_require__(9);
+
+	var _Injector2 = _interopRequireDefault(_Injector);
+
+	var _ScrollSpy = __webpack_require__(10);
 
 	var _ScrollSpy2 = _interopRequireDefault(_ScrollSpy);
 
-	var _StickyHeader = __webpack_require__(12);
+	var _StickyHeader = __webpack_require__(13);
 
 	var _StickyHeader2 = _interopRequireDefault(_StickyHeader);
 
-	var _RevealOnScroll = __webpack_require__(13);
+	var _RevealOnScroll = __webpack_require__(14);
 
 	var _RevealOnScroll2 = _interopRequireDefault(_RevealOnScroll);
 
@@ -81,33 +85,14 @@
 	    return views + '/' + string + '.html';
 	};
 
-	(0, _jquery2.default)(document).ready(inject.bind(window, initModules));
-
-	function inject(callback) {
-	    var partialViews = (0, _jquery2.default)('._partial'),
-	        numViews = partialViews.length;
-	    var viewsInjected = 0;
-	    partialViews.each(function () {
-	        var _this = this;
-
-	        var view = findView((0, _jquery2.default)(this).attr('data-view'));
-	        _jquery2.default.get(view).done(function (data) {
-	            (0, _jquery2.default)(_this).html(data);
-	        }).fail(function (err) {
-	            return console.error(err);
-	        }).always(function () {
-	            viewsInjected++;
-	            if (viewsInjected == numViews) setTimeout(callback, 200);
-	        });
-	    });
-	}
+	(0, _jquery2.default)(document).ready(_Injector2.default.bind(window, initModules));
 
 	function initModules() {
 	    (0, _Menu2.default)();
 	    (0, _ScrollSpy2.default)();
 	    (0, _StickyHeader2.default)();
-	    (0, _Gallery2.default)('testimonial-slides', true, true, 5);
-	    (0, _RevealOnScroll2.default)('.feature-item', '85%');
+	    (0, _Gallery2.default)('testimonial-slides', 'slide', true, true, 5);
+	    (0, _RevealOnScroll2.default)('.feature-item', '65%');
 	    (0, _RevealOnScroll2.default)('.photo', '60%', false);
 	}
 
@@ -10188,9 +10173,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function Gallery(_selector, _alwaysOpen, _autoplay, _interval) {
+	function Gallery(_selector, _transitionType, _alwaysOpen, _autoplay, _interval) {
 	    var interval = _interval || 5,
 	        selector = _selector.trim(),
+	        validTransition = ['slide', 'zoom'].indexOf(_transitionType) != -1,
+	        transition = validTransition ? _transitionType : 'slide',
 	        gallery = (0, _jquery2.default)('#' + selector),
 	        images = gallery.find('.gallery__image'),
 	        numImages = images.length,
@@ -10234,7 +10221,7 @@
 	    }
 
 	    function slideGallery(direction) {
-	        (0, _slide2.default)(images, currentImage, numImages, direction, function (newIndex) {
+	        (0, _slide2.default)(images, currentImage, numImages, direction, transition, function (newIndex) {
 	            currentImage = newIndex;
 	            if (currentImageView) currentImageView.html(newIndex + 1);
 	        });
@@ -10295,21 +10282,31 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function slide(images, currentImage, numImages, direction, cb) {
+	function slide(images, currentImage, numImages, direction, transition, cb) {
 	    //    images.not((i, elm) => i == elm.getAttribute('data-index')).removeClass('active');
+	    var zooms = transition != 'slide',
+	        interval = zooms ? 1500 : 500;
 	    var newCurrent = '',
 	        newAnimateCls = '',
 	        oldAnimateCls = '';
+	    if (zooms) {
+	        newAnimateCls = 'zoom-out';
+	        oldAnimateCls = 'zoom-in';
+	    }
 	    if (direction == 'right') {
-	        newAnimateCls = 'slide-left-in';
-	        oldAnimateCls = 'slide-left-out';
+	        if (!zooms) {
+	            newAnimateCls = 'slide-left-in';
+	            oldAnimateCls = 'slide-left-out';
+	        }
 	        var to = numImages - 1 === currentImage ? 0 : currentImage + 1;
 	        newCurrent = to;
 	        images.eq(to).addClass('active ' + newAnimateCls);
 	        images.eq(currentImage).addClass(oldAnimateCls);
 	    } else if (direction == 'left') {
-	        newAnimateCls = 'slide-right-in';
-	        oldAnimateCls = 'slide-right-out';
+	        if (!zooms) {
+	            newAnimateCls = 'slide-right-in';
+	            oldAnimateCls = 'slide-right-out';
+	        }
 	        var _to = currentImage === 0 ? numImages - 1 : currentImage - 1;
 	        newCurrent = _to;
 	        images.eq(_to).addClass('active ' + newAnimateCls);
@@ -10321,11 +10318,90 @@
 	        images.eq(currentImage).removeClass('active ' + oldAnimateCls);
 
 	        cb(newCurrent);
-	    }, 500);
+	    }, interval);
 	}
 
 /***/ },
 /* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = Injector;
+
+	var _jquery = __webpack_require__(1);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function Injector(callback) {
+	    function findView(elm) {
+	        var path = elm.getAttribute('data-view'),
+	            nest = elm.getAttribute('data-root'),
+	            child = path.split('/'),
+	            root = nest ? nest.split('/') : ['views'];
+
+	        if (path.charAt(0) == '/') {
+	            var abs = path.substr(-5) == '.html' ? path : path + '.html';
+	            return abs;
+	        };
+
+	        var directoriesUp = child.filter(function (str) {
+	            return str == '..';
+	        }).length,
+	            inViewsFolder = root.length - directoriesUp > 0;
+
+	        if (!inViewsFolder && childPath[0] != '') {
+	            console.error('All views/partials should be in the "views" folder. Use an absolute path to use files above "views"');
+	            return false;
+	        } else {
+	            var realRoot = directoriesUp == 0 ? root : root.slice(0, directoriesUp * -1),
+	                realChild = child.filter(function (str) {
+	                return str != '..';
+	            }),
+	                view = [].concat(_toConsumableArray(realRoot), _toConsumableArray(realChild)).join('/'),
+	                rel = view.substr(-5) == '.html' ? view : view + '.html';
+
+	            return rel;
+	        }
+	    }
+
+	    function fetchPartials() {
+	        var partials = (0, _jquery2.default)('._partial'),
+	            hasPartials = partials.length;
+
+	        if (hasPartials) {
+	            var i = void 0;
+	            for (i = 0; i < hasPartials; i++) {
+	                var partial = partials.get(i),
+	                    view = findView(partial),
+	                    isLast = i == hasPartials - 1;
+	                get(partial, view, isLast);
+	            }
+	        } else setTimeout(callback, 200);
+	    }
+
+	    function get(elm, path, isLast) {
+	        _jquery2.default.get(path).done(function (data) {
+	            (0, _jquery2.default)(elm).html(data);
+	            (0, _jquery2.default)(elm).find('._partial').attr('data-root', path.split('/').slice(0, -1).join('/'));
+	            (0, _jquery2.default)(elm).children().unwrap();
+
+	            if (isLast) fetchPartials();
+	        }).fail(function (err) {});
+	    }
+
+	    return fetchPartials();
+	}
+
+/***/ },
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10339,11 +10415,11 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _jquerySmoothScroll = __webpack_require__(10);
+	var _jquerySmoothScroll = __webpack_require__(11);
 
 	var _jquerySmoothScroll2 = _interopRequireDefault(_jquerySmoothScroll);
 
-	var _noframework = __webpack_require__(11);
+	var _noframework = __webpack_require__(12);
 
 	var _noframework2 = _interopRequireDefault(_noframework);
 
@@ -10353,7 +10429,7 @@
 	    var pageSections = (0, _jquery2.default)('.page-section'),
 	        lazyImages = (0, _jquery2.default)('.lazyload'),
 	        links = (0, _jquery2.default)('.primary-nav a'),
-	        anchors = (0, _jquery2.default)('.anchor');
+	        anchors = (0, _jquery2.default)('a[href ^= "#"]');
 
 	    function sectionChange(section, direction, targetDirection) {
 	        if (direction == targetDirection) {
@@ -10382,7 +10458,6 @@
 	            });
 	        });
 
-	        links.smoothScroll();
 	        anchors.smoothScroll();
 
 	        lazyImages.load(function () {
@@ -10392,7 +10467,7 @@
 	}
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10717,7 +10792,7 @@
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/*!
@@ -11480,7 +11555,7 @@
 	;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11498,7 +11573,7 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _noframework = __webpack_require__(11);
+	var _noframework = __webpack_require__(12);
 
 	var _noframework2 = _interopRequireDefault(_noframework);
 
@@ -11547,7 +11622,7 @@
 	}
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11561,7 +11636,7 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _noframework = __webpack_require__(11);
+	var _noframework = __webpack_require__(12);
 
 	var _noframework2 = _interopRequireDefault(_noframework);
 

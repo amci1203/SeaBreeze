@@ -16,9 +16,11 @@
     }
     &.sub-heading {
         font-size     : 1.6rem;
+        margin-top    : 0.65rem;
         margin-bottom : 1.35rem;
         @mixin atMedium {
             font-size     : 2.15rem;
+            margin-top    : 1.25rem;
             margin-bottom : 2rem;
         }    
     }

@@ -41,10 +41,13 @@
     &--always-open {
         position: relative;
         .gallery__image {
-            text-align: center;
-            display: none;
-            width: 90%;
-            margin: 15px auto;
+            position   : absolute;
+            top        : -40px;
+            text-align : center;
+            display    : none;
+            height     : auto;
+            width      : 100%;
+            margin     : 15px auto;
             &.active { display: block }
         }
     }

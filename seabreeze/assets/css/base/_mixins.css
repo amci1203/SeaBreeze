@@ -100,24 +100,17 @@
     }
 }
 @define-mixin btn-size $multiplier {
-    font-size: calc($btn-font-size * $multiplier);
-    
-    padding-top    : calc($btn-vPadding * $multiplier);
-    padding-bottom : calc($btn-vPadding * $multiplier);
-    padding-left   : calc($btn-hPadding * $multiplier);
-    padding-right  : calc($btn-hPadding * $multiplier);
-    padding-right  : calc($btn-hPadding * $multiplier);
-    
-    margin-top    : calc($btn-vPadding * $multiplier / 3);
-    margin-bottom : calc($btn-vPadding * $multiplier / 3);
-    margin-left   : calc($btn-hPadding * $multiplier / 3);
-    margin-right  : calc($btn-hPadding * $multiplier / 3);
+    font-size : calc($btn-font-size * $multiplier);
+    padding   : calc($btn-vPadding * $multiplier) calc($btn-hPadding * $multiplier);
+    margin    : calc($btn-vPadding * $multiplier / 3) calc($btn-hPadding * $multiplier / 3);
 }
 
 @define-mixin column $span, $viewport, $margin: 0 {
     .col-$(viewport)-$(span) {
-        float        : left;
-        width        : calc(($span * (100% / 12)) - $margin);
-        margin-right : $margin;
+        float  : left;
+        width  : calc(($span * (100% / 12)) - $margin);
+        margin : 0 calc($margin / 2);
+
+        p { width: 100% }
     }
 }

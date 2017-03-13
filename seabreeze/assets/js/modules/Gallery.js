@@ -2,10 +2,12 @@ import $ from 'jquery';
 
 import slide from '../helpers/slide';
 
-export default function Gallery (_selector, _alwaysOpen, _autoplay, _interval) {
+export default function Gallery (_selector, _transitionType, _alwaysOpen, _autoplay, _interval) {
     const
         interval         = _interval || 5,
         selector         = _selector.trim(),
+        validTransition  = ['slide', 'zoom'].indexOf(_transitionType) != -1,
+        transition       = validTransition ?  _transitionType : 'slide',
         gallery          = $(`#${selector}`),
         images           = gallery.find('.gallery__image'),
         numImages        = images.length,
@@ -49,7 +51,7 @@ export default function Gallery (_selector, _alwaysOpen, _autoplay, _interval) {
     }
 
     function slideGallery (direction) {
-        slide(images, currentImage, numImages, direction, newIndex => {
+        slide(images, currentImage, numImages, direction, transition, newIndex => {
             currentImage = newIndex;
             if (currentImageView) currentImageView.html(newIndex + 1);
         })

@@ -1,9 +1,6 @@
 .row {
     position: relative;
     @mixin clearfix;
-    @mixin atSmall {
-        left: 0.8%;
-    }
     
     @for $i from 1 to 12 {
         @mixin column $i, xs, $gutter-width;
@@ -11,18 +8,11 @@
         @media (min-width: 768px) { @mixin column $i, md, $gutter-width }
         @media (min-width: 991px) { @mixin column $i, lg, $gutter-width }
     }
-    
-    &--gutters-large {
-        & > * {
-            margin-right: !important;
-        }
-    }
-    
-    & > *:last-child { margin-right: 0 !important }
-    
+
     /* BEGIN EQUAL HEIGHT CSS RULES*/
     .flexbox &--equal-height-md {
         @mixin atMedium {
+            margin: 10px 0;
             display: flex;
         }
         & > div {
@@ -32,6 +22,7 @@
     }
     .flexbox &--equal-height-lg {
         @mixin atLarge {
+            margin: 10px 0;
             display: flex;
         }
         & > div {

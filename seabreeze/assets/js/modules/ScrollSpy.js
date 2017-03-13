@@ -6,7 +6,7 @@ export default function ScrollSpy () {
     const pageSections = $('.page-section'),
           lazyImages   = $('.lazyload'),
           links        = $('.primary-nav a'),
-          anchors      = $('.anchor');
+          anchors      = $('a[href ^= "#"]');
 
 
     function sectionChange (section, direction, targetDirection) {
@@ -32,7 +32,6 @@ export default function ScrollSpy () {
             })
         })
 
-        links.smoothScroll();
         anchors.smoothScroll();
         
         lazyImages.load(() => Waypoint.refreshAll());
