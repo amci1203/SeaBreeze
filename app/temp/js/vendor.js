@@ -175,7 +175,7 @@
 				running = false;
 			};
 
-			var rafBatch = function(fn){
+			return function(fn){
 				if(running){
 					fn.apply(this, arguments);
 				} else {
@@ -187,10 +187,6 @@
 					}
 				}
 			};
-
-			rafBatch._lsFlush = run;
-
-			return rafBatch;
 		})();
 
 		var rAFIt = function(fn, simple){
